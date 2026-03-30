@@ -21,8 +21,19 @@ export const Colors = {
   darkBlue: "#1C5DB6",
 };
 
-const { primary, secondary, tertiary, darkLight, black, green, red, orange, primaryBlue, secondaryBlue, darkBlue } =
-  Colors;
+const {
+  primary,
+  secondary,
+  tertiary,
+  darkLight,
+  black,
+  green,
+  red,
+  orange,
+  primaryBlue,
+  secondaryBlue,
+  darkBlue,
+} = Colors;
 
 export const styles = StyleSheet.create({
   styledContainer: {
@@ -30,13 +41,26 @@ export const styles = StyleSheet.create({
     padding: 25,
     paddingTop: StatusBarHeight + 10,
     backgroundColor: primary,
+    alignItems: "center",
+    width: "100%",
   },
 
-  innerContainer: {
-    flex: 1,
-    width: "100%",
+  logoContainer: {
     alignItems: "center",
+    marginBottom: 2,
+    flexDirection: "row",
   },
+
+  appLogo: {
+    width: 70,
+    height: 70,
+  },
+
+  // innerContainer: {
+  //   flex: 1,
+  //   width: "100%",
+  //   alignItems: "center",
+  // },
 
   pageLogo: {
     width: width * 0.7,
@@ -46,10 +70,10 @@ export const styles = StyleSheet.create({
   },
 
   pageTitle: {
+    color: black,
     fontSize: 30,
     textAlign: "center",
     fontWeight: "bold",
-    color: black,
     paddingTop: 5,
     paddingBottom: 1,
   },

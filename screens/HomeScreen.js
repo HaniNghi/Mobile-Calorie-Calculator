@@ -6,11 +6,17 @@ export default function HomeScreen() {
     const navigation = useNavigation()
     return (
         <View style={styles.styledContainer}>
-            <View style={styles.innerContainer}>
-                <Text style={styles.pageTitle}>Calorie Calculator</Text>
+                <View style={styles.logoContainer}>
+                    <Image
+                        resizeMode="contain"
+                        source={require('../assets/app-logo.png')}
+                        style={styles.appLogo}
+                    />
+                    <Text style={styles.pageTitle}>Calorie Calculator</Text>
+                </View>
                 <Image
                     resizeMode='contain'
-                    source={require('./../assets/welcome-image.png')}
+                    source={require('../assets/welcome-image.png')}
                     style={styles.pageLogo}
                 />
                 <Card
@@ -34,7 +40,6 @@ export default function HomeScreen() {
                 >
                     <Text style={styles.getStartedText}>Get Started</Text>
                 </TouchableOpacity>
-            </View>
         </View>
     )
 }

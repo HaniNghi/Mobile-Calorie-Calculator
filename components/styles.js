@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import Constants from "expo-constants";
 import { Dimensions } from "react-native";
+import HomeScreen from "../screens/HomeScreen";
 
 const StatusBarHeight = Constants.statusBarHeight;
 const { width } = Dimensions.get("window"); //get width of window
@@ -43,6 +44,15 @@ export const styles = StyleSheet.create({
     backgroundColor: primary,
     alignItems: "center",
     width: "100%",
+  },
+
+  // HOMESCREEN
+
+  container: {
+    flex: 1,
+    padding: 25,
+    paddingTop: StatusBarHeight + 10,
+    backgroundColor: primary,
   },
 
   logoContainer: {
@@ -142,5 +152,30 @@ export const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 17,
     fontWeight: "600",
+  },
+
+  // HEADER
+
+  headerContainer: {
+    height: 80,
+    backgroundColor: "#1976D2",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingTop: 20, // for notch spacing
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  headerBackButton: {
+    padding: 5,
+  },
+  headerTitle: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  headerRightSpace: {
+    width: 24, // keeps title centered
   },
 });

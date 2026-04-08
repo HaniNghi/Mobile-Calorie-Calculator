@@ -19,17 +19,17 @@ export default function HomeScreen() {
                 <Card
                     title="Calorie calculation"
                     description="Calculate your daily calorie needs to match your goals."
-                    icon={require('../assets/card-3-icon.png')}
+                    icon={require('../assets/card-1-icon.png')}
                 />
                 <Card
                     title="Track your calories and exercise"
                     description="Record your food and exercise to easily track calories."
-                    icon={require('../assets/card-1-icon.png')}
+                    icon={require('../assets/card-2-icon.png')}
                 />
                 <Card
                     title="View visual statistics"
                     description="Weekly and monthly calorie tracking chart."
-                    icon={require('../assets/card-2-icon.png')}
+                    icon={require('../assets/card-3-icon.png')}
                 />
                 <TouchableOpacity 
                     style={styles.getStartedButton}

@@ -6,32 +6,29 @@ export default function HomeScreen() {
     const navigation = useNavigation()
     return (
         <View style={styles.styledContainer}>
-                <View style={styles.logoContainer}>
-                    <Image
-                        resizeMode="contain"
-                        source={require('../assets/app-logo.png')}
-                        style={styles.appLogo}
-                    />
-                    <Text style={styles.pageTitle}>Calorie Calculator</Text>
-                </View>
+            <View style={styles.innerContainer}>
+                <Text style={styles.pageTitle}>Calorie</Text>
+                <Text style={styles.pageTitle}>Calculator</Text>
+                <Text style={styles.pageSubTitle}>Understand your body. Control your calories. Achieve your health goals.</Text>
+
                 <Image
                     resizeMode='contain'
-                    source={require('../assets/welcome-image.png')}
+                    source={require('./../assets/logo.png')}
                     style={styles.pageLogo}
                 />
                 <Card
-                    title="Manage Profile"
-                    description="Update your body info."
+                    title="Calorie calculation"
+                    description="Calculate your daily calorie needs to match your goals."
                     icon={require('../assets/card-3-icon.png')}
                 />
                 <Card
-                    title="Track your calories"
-                    description="Set your goals and monitor your intake."
+                    title="Track your calories and exercise"
+                    description="Record your food and exercise to easily track calories."
                     icon={require('../assets/card-1-icon.png')}
                 />
                 <Card
-                    title="View Progress"
-                    description="Analyze your daily results."
+                    title="View visual statistics"
+                    description="Weekly and monthly calorie tracking chart."
                     icon={require('../assets/card-2-icon.png')}
                 />
                 <TouchableOpacity 
@@ -40,17 +37,14 @@ export default function HomeScreen() {
                 >
                     <Text style={styles.getStartedText}>Get Started</Text>
                 </TouchableOpacity>
+            </View>
         </View>
     )
 }
 
 const Card = ({ title, icon, description }) => {
     return (
-        <ImageBackground
-            source={require('../assets/white-background.jpg')}
-            style={styles.background}
-            imageStyle={styles.image}
-        >
+        <View style={styles.background}>
             <View style={styles.cardContainer}>
                 <View style={styles.row}>
                     {icon && <Image source={icon} style={styles.leftIcon} />}
@@ -60,7 +54,7 @@ const Card = ({ title, icon, description }) => {
                     </View>
                 </View>
             </View>
-        </ImageBackground>
+        </View>
 
     )
 }

@@ -11,13 +11,13 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home"
+      <Stack.Navigator initialRouteName="Login"
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Home" component={Login} />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="Start" component={HomeScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Calculator" component={CalculatorScreen} />
       </Stack.Navigator>
     </NavigationContainer>

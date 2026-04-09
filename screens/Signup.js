@@ -88,7 +88,7 @@ export default function Login() {
             <TouchableOpacity
               onPress={() => {
                 //handle onPress
-                navigation.navigate("Home")
+                navigation.navigate("Login")
                 Alert.alert("Successfully sign up");
               }}
             >

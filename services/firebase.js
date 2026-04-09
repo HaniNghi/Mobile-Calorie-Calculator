@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile , signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 
 export async function createUser(inputUser) {
@@ -14,6 +14,19 @@ export async function createUser(inputUser) {
         displayName: `${inputUser.firstname} ${inputUser.lastname}`,
       });
     }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function login(email, password) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
   } catch (error) {
     throw error;
   }

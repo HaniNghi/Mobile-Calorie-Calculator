@@ -17,9 +17,32 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useState } from "react";
+
+import { login } from "../services/firebase";
 
 export default function Login() {
   const navigation = useNavigation();
+  // login form: email and password
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // submit signin
+  const handleSubmit = async () => {
+    try {
+      await login(email, password);
+      navigation.navigate("Home");
+      Alert.alert("Successfully logged in");
+    } catch (error) {
+      Alert.alert("Fail to log in", error.message);
+    }
+  };
+  // 1. find user by email
+  // 2. if user exist -> check password
+  // 2.1 if password correct -> to home
+  // 2.2. if password incorrect -> alert "credentials are invalid"
+
+  // 3. if user not exist -> alert "credentials are invalid"
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
       <View style={styles.container}>
@@ -42,8 +65,8 @@ export default function Login() {
               style={styles.inputControl}
               placeholder="john@example.com"
               placeholderTextColor={white}
-              //   value={form.email}
-              //   onChangeText={(email) => setForm({ ...form, email })}
+              value={email}
+              onChangeText={(email) => setEmail(email)}
             />
           </View>
 
@@ -54,19 +77,13 @@ export default function Login() {
               style={styles.inputControl}
               placeholder="******"
               placeholderTextColor={white}
-              //   value={form.password}
-              //   onChangeText={(password) => setForm({ ...form, password })}
+              value={password}
+              onChangeText={(password) => setPassword(password)}
             />
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity
-              onPress={() => {
-                //handle onPress
-                navigation.navigate("Home");
-                Alert.alert("Successfully logged in");
-              }}
-            >
+            <TouchableOpacity onPress={handleSubmit}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Sign in</Text>
               </View>

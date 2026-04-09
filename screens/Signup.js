@@ -52,8 +52,8 @@ export default function Login() {
               style={styles.inputControl}
               placeholder="John"
               placeholderTextColor={white}
-                value={form.firstname}
-                onChangeText={(firstname) => setForm({ ...form, firstname })}
+              value={form.firstname}
+              onChangeText={(firstname) => setForm({ ...form, firstname })}
             />
           </View>
 
@@ -64,8 +64,8 @@ export default function Login() {
               style={styles.inputControl}
               placeholder="Hamly"
               placeholderTextColor={white}
-                value={form.lastname}
-                onChangeText={(lastname) => setForm({ ...form, lastname })}
+              value={form.lastname}
+              onChangeText={(lastname) => setForm({ ...form, lastname })}
             />
           </View>
 
@@ -78,8 +78,8 @@ export default function Login() {
               style={styles.inputControl}
               placeholder="john@example.com"
               placeholderTextColor={white}
-                value={form.email}
-                onChangeText={(email) => setForm({ ...form, email })}
+              value={form.email}
+              onChangeText={(email) => setForm({ ...form, email })}
             />
           </View>
 
@@ -90,28 +90,21 @@ export default function Login() {
               style={styles.inputControl}
               placeholder="******"
               placeholderTextColor={white}
-                value={form.password}
-                onChangeText={(password) => setForm({ ...form, password })}
+              value={form.password}
+              onChangeText={(password) => setForm({ ...form, password })}
             />
           </View>
 
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={async () => {
-                //handle onPress
-                // store user info to Firebasea
                 try {
-                    console.log("form", form)
                   await createUser(form);
+                  navigation.navigate("Login");
+                  Alert.alert("Successfully sign up");
                 } catch (error) {
-                  // if false
-                  // Alert.alert("Fail to sign up");
-                  console.log("failed to create user", error);
+                  Alert.alert("Failed to create user", error.message || "An error occurred");
                 }
-
-                // if successfull
-                navigation.navigate("Login");
-                Alert.alert("Successfully sign up");
               }}
             >
               <View style={styles.btn}>

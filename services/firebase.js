@@ -1,11 +1,20 @@
-import { Database, getDatabase, ref, set } from "firebase/database";
-import { database } from "../firebaseConfig";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 
-export async function createUser(user) {
-  set(ref(database, "users/" + user.id), {
-    firstname: user.firstname,
-    lastname: user.lastname,
-    email: user.email,
-    password: user.password,
-  });
+export async function createUser(inputUser) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      inputUser.email,
+      inputUser.password
+    );
+    const user = userCredential.user;
+    if (user) {
+      await updateProfile(user, {
+        displayName: `${inputUser.firstname} ${inputUser.lastname}`,
+      });
+    }
+  } catch (error) {
+    throw error;
+  }
 }

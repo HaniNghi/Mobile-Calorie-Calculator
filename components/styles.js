@@ -99,6 +99,7 @@ export const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 12,
+    borderRadius: 5,
   },
 
   cardDescription: {

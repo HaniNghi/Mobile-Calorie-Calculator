@@ -1,4 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
 
 import {
   black,
@@ -18,6 +19,7 @@ import {
 } from "react-native";
 
 export default function Login() {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
       <View style={styles.container}>
@@ -61,7 +63,7 @@ export default function Login() {
             <TouchableOpacity
               onPress={() => {
                 //handle onPress
-
+                navigation.navigate("Start");
                 Alert.alert("Successfully logged in");
               }}
             >
@@ -73,9 +75,7 @@ export default function Login() {
 
           <TouchableOpacity
             style={{ marginTop: "auto" }}
-            onPress={() => {
-              // handle onPress signup
-            }}
+            onPress={() => navigation.navigate("Signup")}
           >
             <Text style={styles.formFooter}>
               Dont't have an account?

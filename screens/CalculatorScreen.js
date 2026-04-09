@@ -5,9 +5,8 @@ import { Header } from '../components/Header';
 
 export default function CalculatorScreen() {
     return(
-        <View style={styles.container}>
-            {/* <Header title="ENTER YOUR DETAILS" showBack={true}/> */}
-            <Text>Calculator screen</Text>
+        <View style={styles.styledContainer}>
+            <Text style={styles.pageTitle}>Calculator screen</Text>
         </View>
     )
 }

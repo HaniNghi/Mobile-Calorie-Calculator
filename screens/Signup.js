@@ -17,10 +17,21 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useState } from "react";
+import { createUser } from "../services/firebase";
+import { v4 as uuidv4 } from "uuid";
+import "react-native-get-random-values";
 
 export default function Login() {
-      const navigation = useNavigation();
-    
+  const navigation = useNavigation();
+  const [form, setForm] = useState({
+    id: uuidv4(),
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+  });
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
       <View style={styles.container}>
@@ -41,8 +52,8 @@ export default function Login() {
               style={styles.inputControl}
               placeholder="John"
               placeholderTextColor={white}
-              //   value={form.firstname}
-              //   onChangeText={(firstname) => setForm({ ...form, firstname })}
+                value={form.firstname}
+                onChangeText={(firstname) => setForm({ ...form, firstname })}
             />
           </View>
 
@@ -53,8 +64,8 @@ export default function Login() {
               style={styles.inputControl}
               placeholder="Hamly"
               placeholderTextColor={white}
-              //   value={form.lastname}
-              //   onChangeText={(lastname) => setForm({ ...form, lastname })}
+                value={form.lastname}
+                onChangeText={(lastname) => setForm({ ...form, lastname })}
             />
           </View>
 
@@ -67,8 +78,8 @@ export default function Login() {
               style={styles.inputControl}
               placeholder="john@example.com"
               placeholderTextColor={white}
-              //   value={form.email}
-              //   onChangeText={(email) => setForm({ ...form, email })}
+                value={form.email}
+                onChangeText={(email) => setForm({ ...form, email })}
             />
           </View>
 
@@ -79,16 +90,27 @@ export default function Login() {
               style={styles.inputControl}
               placeholder="******"
               placeholderTextColor={white}
-              //   value={form.password}
-              //   onChangeText={(password) => setForm({ ...form, password })}
+                value={form.password}
+                onChangeText={(password) => setForm({ ...form, password })}
             />
           </View>
 
           <View style={styles.formAction}>
             <TouchableOpacity
-              onPress={() => {
+              onPress={async () => {
                 //handle onPress
-                navigation.navigate("Login")
+                // store user info to Firebasea
+                try {
+                    console.log("form", form)
+                  await createUser(form);
+                } catch (error) {
+                  // if false
+                  // Alert.alert("Fail to sign up");
+                  console.log("failed to create user", error);
+                }
+
+                // if successfull
+                navigation.navigate("Login");
                 Alert.alert("Successfully sign up");
               }}
             >
@@ -97,7 +119,6 @@ export default function Login() {
               </View>
             </TouchableOpacity>
           </View>
-
         </View>
       </View>
     </SafeAreaView>

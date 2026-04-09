@@ -19,13 +19,12 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { createUser } from "../services/firebase";
-import { v4 as uuidv4 } from "uuid";
-import "react-native-get-random-values";
+// import { v4 as uuidv4 } from "uuid";
+// import "react-native-get-random-values";
 
 export default function Login() {
   const navigation = useNavigation();
   const [form, setForm] = useState({
-    id: uuidv4(),
     firstname: "",
     lastname: "",
     email: "",

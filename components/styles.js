@@ -21,7 +21,7 @@ export const Colors = {
   red: "#EF4444",
 };
 
-const { darkLight, black, white, muted, primaryBlue, brightBlue, lightBlue, blueGradient, green, yellow, red} =
+export const { darkLight, black, white, muted, primaryBlue, brightBlue, lightBlue, blueGradient, green, yellow, red} =
   Colors;
 
 export const styles = StyleSheet.create({
@@ -124,7 +124,7 @@ export const styles = StyleSheet.create({
   },
 
   getStartedText: {
-    color: "#FFFFFF",
+    color: white,
     fontSize: 17,
     fontWeight: "600",
   },

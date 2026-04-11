@@ -1,6 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 
+// Colors
 import {
   black,
   white,
@@ -8,6 +9,7 @@ import {
   darkLight,
   brightBlue,
 } from "../components/styles";
+
 import {
   Alert,
   Image,
@@ -17,9 +19,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
 import { useState } from "react";
 
 import { login } from "../services/firebase";
+
 
 export default function Login() {
   const navigation = useNavigation();
@@ -36,12 +40,6 @@ export default function Login() {
       Alert.alert("Fail to log in", error.message);
     }
   };
-  // 1. find user by email
-  // 2. if user exist -> check password
-  // 2.1 if password correct -> to home
-  // 2.2. if password incorrect -> alert "credentials are invalid"
-
-  // 3. if user not exist -> alert "credentials are invalid"
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>

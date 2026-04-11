@@ -10,6 +10,7 @@ const { width } = Dimensions.get("window"); //get width of window
 export const Colors = {
   darkLight: "#9CA3AF",
   black: "#000000",
+  grey: "#2e2d2d",
   white: "#FFFFFF",
   muted: "#eeeaea",
   primaryBlue: "#1E6BFF",
@@ -21,7 +22,7 @@ export const Colors = {
   red: "#EF4444",
 };
 
-export const { darkLight, black, white, muted, primaryBlue, brightBlue, lightBlue, blueGradient, green, yellow, red} =
+export const { darkLight, black, grey, white, muted, primaryBlue, brightBlue, lightBlue, blueGradient, green, yellow, red} =
   Colors;
 
 export const styles = StyleSheet.create({

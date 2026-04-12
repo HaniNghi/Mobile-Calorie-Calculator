@@ -196,12 +196,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     color: white,
-
-    shadowColor: brightBlue,
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 5,
-    elevation: 4,
   },
   form: {
     marginBottom: 24,

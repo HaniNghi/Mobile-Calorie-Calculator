@@ -33,7 +33,11 @@ export default function CalculatorScreen() {
   });
 
   const genders = ["Male", "Female"];
-  const goals = ["Lose Weight", "Remain weight", "Gain weight"];
+  const goals = [
+    { label: "Lose weight", value: "lose" },
+    { label: "Maintain weight", value: "maintain" },
+    { label: "Gain weight", value: "gain" },
+  ];
   const activityLevels = [
     { label: "Low (little or no exercise)", value: "low" },
     { label: "Medium (3–5 days/week)", value: "medium" },
@@ -130,20 +134,20 @@ export default function CalculatorScreen() {
             <View style={styles.optionRow}>
               {goals.map((item) => (
                 <TouchableOpacity
-                  key={item}
+                  key={item.label}
                   style={[
                     styles.optionBtn,
-                    info.goal === item && styles.optionBtnActive,
+                    info.goal === item.value && styles.optionBtnActive,
                   ]}
-                  onPress={() => setInfo({ ...info, goal: item })}
+                  onPress={() => setInfo({ ...info, goal: item.value })}
                 >
                   <Text
                     style={[
                       styles.optionText,
-                      info.goal === item && styles.optionTextActive,
+                      info.goal === item.value && styles.optionTextActive,
                     ]}
                   >
-                    {item}
+                    {item.label}
                   </Text>
                 </TouchableOpacity>
               ))}
@@ -152,15 +156,15 @@ export default function CalculatorScreen() {
 
           <View style={styles.formAction}>
             <TouchableOpacity
-            onPress={async () => {
-              try {
-                await saveInfo(info);
-                // navigation.navigate("Login");
-                Alert.alert("Successfully save your information");
-              } catch (error) {
-                Alert.alert("Failed to save your information", error.message);
-              }
-            }}
+              onPress={async () => {
+                try {
+                  await saveInfo(info);
+                  // navigation.navigate("Login");
+                  Alert.alert("Successfully save your information");
+                } catch (error) {
+                  Alert.alert("Failed to save your information", error.message);
+                }
+              }}
             >
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Calculate Calorie</Text>
@@ -253,30 +257,29 @@ const styles = StyleSheet.create({
     color: white,
   },
   dropdown: {
-  height: 50,
-  backgroundColor: grey,
-  borderRadius: 12,
-  paddingHorizontal: 12,
-  borderWidth: 1,
-},
+    height: 50,
+    backgroundColor: grey,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+  },
 
-dropdownContainer: {
-  backgroundColor:grey,
-  borderRadius: 12,
-  borderWidth: 1,
-},
+  dropdownContainer: {
+    backgroundColor: grey,
+    borderRadius: 12,
+    borderWidth: 1,
+  },
 
-placeholderStyle: {
-  color: white,
-},
+  placeholderStyle: {
+    color: white,
+  },
 
-selectedTextStyle: {
-  color: white,
-  fontWeight: "500",
-},
+  selectedTextStyle: {
+    color: white,
+    fontWeight: "500",
+  },
 
-itemTextStyle: {
-  color: white,
-},
-
+  itemTextStyle: {
+    color: white,
+  },
 });

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Alert,
   View,
   Text,
   StyleSheet,
@@ -8,6 +9,8 @@ import {
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Dropdown } from "react-native-element-dropdown";
+import { saveInfo } from "../services/firebase";
 
 // Colors
 import {
@@ -29,6 +32,14 @@ export default function CalculatorScreen() {
     goal: null,
   });
 
+  const genders = ["Male", "Female"];
+  const goals = ["Lose Weight", "Remain weight", "Gain weight"];
+  const activityLevels = [
+    { label: "Low (little or no exercise)", value: "low" },
+    { label: "Medium (3–5 days/week)", value: "medium" },
+    { label: "High (intense daily exercise)", value: "high" },
+  ];
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
       <View style={styles.container}>
@@ -47,16 +58,28 @@ export default function CalculatorScreen() {
 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Gender</Text>
-            <TextInput
-              autoCorrect={false}
-              style={styles.inputControl}
-              placeholder="20"
-              placeholderTextColor={white}
-              value={info.gender}
-              onChangeText={(gender) => setInfo({ ...info, gender })}
-            />
+            <View style={styles.optionRow}>
+              {genders.map((item) => (
+                <TouchableOpacity
+                  key={item}
+                  style={[
+                    styles.optionBtn,
+                    info.gender === item && styles.optionBtnActive,
+                  ]}
+                  onPress={() => setInfo({ ...info, gender: item })}
+                >
+                  <Text
+                    style={[
+                      styles.optionText,
+                      info.gender === item && styles.optionTextActive,
+                    ]}
+                  >
+                    {item}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
-
 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Height</Text>
@@ -84,41 +107,60 @@ export default function CalculatorScreen() {
 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Activity Level</Text>
-            <TextInput
-              autoCorrect={false}
-              style={styles.inputControl}
-              placeholder="Moderate Exercise"
-              placeholderTextColor={white}
+            <Dropdown
+              style={styles.dropdown}
+              containerStyle={styles.dropdownContainer}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              itemTextStyle={styles.itemTextStyle}
+              activeColor={black}
+              data={activityLevels}
+              labelField="label"
+              valueField="value"
+              placeholder="Select activity level"
               value={info.activityLevel}
-              onChangeText={(activityLevel) =>
-                setInfo({ ...info, activityLevel })
-              }
+              onChange={(item) => {
+                setInfo({ ...info, activityLevel: item.value });
+              }}
             />
           </View>
 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Goal</Text>
-            <TextInput
-              autoCorrect={false}
-              style={styles.inputControl}
-              placeholder="Lose weight"
-              placeholderTextColor={white}
-              value={info.goal}
-              onChangeText={(goal) => setInfo({ ...info, goal })}
-            />
+            <View style={styles.optionRow}>
+              {goals.map((item) => (
+                <TouchableOpacity
+                  key={item}
+                  style={[
+                    styles.optionBtn,
+                    info.goal === item && styles.optionBtnActive,
+                  ]}
+                  onPress={() => setInfo({ ...info, goal: item })}
+                >
+                  <Text
+                    style={[
+                      styles.optionText,
+                      info.goal === item && styles.optionTextActive,
+                    ]}
+                  >
+                    {item}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
 
           <View style={styles.formAction}>
             <TouchableOpacity
-            // onPress={async () => {
-            //   try {
-            //     await createUser(form);
-            //     navigation.navigate("Login");
-            //     Alert.alert("Successfully sign up");
-            //   } catch (error) {
-            //     Alert.alert("Failed to create user", error.message || "An error occurred");
-            //   }
-            // }}
+            onPress={async () => {
+              try {
+                await saveInfo(info);
+                // navigation.navigate("Login");
+                Alert.alert("Successfully save your information");
+              } catch (error) {
+                Alert.alert("Failed to save your information", error.message);
+              }
+            }}
             >
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Calculate Calorie</Text>
@@ -133,9 +175,9 @@ export default function CalculatorScreen() {
 
 const styles = StyleSheet.create({
   container: {
-      backgroundColor: black,
-      padding: 24,
-      flex: 1,
+    backgroundColor: black,
+    padding: 24,
+    flex: 1,
   },
   input: {
     marginBottom: 16,
@@ -189,4 +231,58 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "600",
   },
+  optionRow: {
+    flexDirection: "row",
+    gap: 10,
+  },
+
+  optionBtn: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 12,
+    backgroundColor: grey,
+    alignItems: "center",
+    borderWidth: 1,
+  },
+
+  optionBtnActive: {
+    backgroundColor: brightBlue,
+    borderColor: brightBlue,
+  },
+
+  optionText: {
+    color: white,
+    fontWeight: "600",
+  },
+
+  optionTextActive: {
+    color: white,
+  },
+  dropdown: {
+  height: 50,
+  backgroundColor: grey,
+  borderRadius: 12,
+  paddingHorizontal: 12,
+  borderWidth: 1,
+},
+
+dropdownContainer: {
+  backgroundColor:grey,
+  borderRadius: 12,
+  borderWidth: 1,
+},
+
+placeholderStyle: {
+  color: white,
+},
+
+selectedTextStyle: {
+  color: white,
+  fontWeight: "500",
+},
+
+itemTextStyle: {
+  color: white,
+},
+
 });

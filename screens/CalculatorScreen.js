@@ -12,6 +12,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Dropdown } from "react-native-element-dropdown";
 import { saveInfo } from "../services/firebase";
 import Header from '../components/Header'
+import { useNavigation } from "@react-navigation/native";
+
 
 // Colors
 import {
@@ -25,6 +27,8 @@ import {
 import BottomTab from "../components/BottomTab";
 
 export default function CalculatorScreen() {
+    const navigation = useNavigation();
+  
   const [info, setInfo] = useState({
     age: null,
     gender: null,
@@ -165,7 +169,7 @@ export default function CalculatorScreen() {
               onPress={async () => {
                 try {
                   await saveInfo(info);
-                  // navigation.navigate("Login");
+                  navigation.navigate("Result");
                   Alert.alert("Successfully save your information");
                 } catch (error) {
                   Alert.alert("Failed to save your information", error.message);

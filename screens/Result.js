@@ -8,6 +8,15 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+// Colors
+import {
+  black,
+  grey,
+  white,
+  muted,
+  darkLight,
+  brightBlue,
+} from "../styles";
 
 export default function Result() {
     const [result, setResult] = useState()
@@ -15,7 +24,7 @@ export default function Result() {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
-            <Text>Your daily calorie needs</Text>
+            <Text style={{color: white}}>Your daily calorie needs</Text>
         </SafeAreaView>
     )
 }

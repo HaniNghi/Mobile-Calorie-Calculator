@@ -40,8 +40,8 @@ export const styles = StyleSheet.create({
   },
 
   pageLogo: {
-    width: width * 0.7,
-    height: width * 0.7,
+    width: width * 0.6,
+    height: width * 0.6,
     resizeMode: "contain",
     marginTop: 1,
   },

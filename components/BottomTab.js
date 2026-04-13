@@ -17,7 +17,7 @@ export default function BottomTab() {
         tabBarStyle: {
           backgroundColor: black,
           borderTopColor: "#1f2937",
-          height: 70,
+          height: 60,
           paddingBottom: 10,
         },
 

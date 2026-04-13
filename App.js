@@ -30,8 +30,7 @@ export default function App() {
       {user ? (
         // USER IS LOGGED IN
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Calculator" component={CalculatorScreen} />
+          <Stack.Screen name="Main" component={BottomTab} />
         </Stack.Navigator>
       ) : (
         // USER NOT LOGGED IN

@@ -10,7 +10,7 @@ import {
   darkLight,
   brightBlue,
   lightBlue,
-} from "../components/styles";
+} from "../styles";
 
 
 

@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { styles } from "../components/styles";
+import { styles } from "../styles";
 import {
   View,
   Text,
@@ -43,6 +43,7 @@ export default function HomeScreen() {
           description="Weekly and monthly calorie tracking chart."
           icon={require("../assets/card-3-icon.png")}
         />
+        
         <TouchableOpacity
           style={styles.getStartedButton}
           onPress={() => navigation.navigate("Calculator")}

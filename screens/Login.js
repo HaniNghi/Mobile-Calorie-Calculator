@@ -8,7 +8,7 @@ import {
   muted,
   darkLight,
   brightBlue,
-} from "../components/styles";
+} from "../styles";
 
 import {
   Alert,

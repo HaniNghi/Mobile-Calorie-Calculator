@@ -21,7 +21,8 @@ import {
   muted,
   darkLight,
   brightBlue,
-} from "../components/styles";
+} from "../styles";
+import BottomTab from "../components/BottomTab";
 
 export default function CalculatorScreen() {
   const [info, setInfo] = useState({

@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Dropdown } from "react-native-element-dropdown";
 import { saveInfo } from "../services/firebase";
+import Header from '../components/Header'
 
 // Colors
 import {
@@ -46,6 +47,10 @@ export default function CalculatorScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
+      <Header 
+          title={"Enter your details"}
+          showBack={true}
+        />
       <View style={styles.container}>
         <View style={styles.form}>
           <View style={styles.input}>

@@ -9,22 +9,31 @@ import {
   TouchableOpacity,
 } from "react-native";
 // Colors
-import {
-  black,
-  grey,
-  white,
-  muted,
-  darkLight,
-  brightBlue,
-} from "../styles";
+import { black, grey, white, muted, darkLight, brightBlue } from "../styles";
+import Header from '../components/Header'
 
 export default function Result() {
-    const [result, setResult] = useState()
+  const [result, setResult] = useState();
 
-
-    return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
-            <Text style={{color: white}}>Your daily calorie needs</Text>
-        </SafeAreaView>
-    )
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
+      <Header 
+                title={"Result"}
+                showBack={true}
+              />
+      <View>
+        <Text style={styles.title}>Your daily calorie needs</Text>
+      </View>
+    </SafeAreaView>
+  );
 }
+
+const styles = StyleSheet.create({
+  title: {
+    color: white,
+    alignSelf: "center",
+    fontSize: 20,
+    marginTop: 50,
+  },
+
+});

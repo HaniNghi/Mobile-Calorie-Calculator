@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   View,
@@ -10,21 +10,24 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Dropdown } from "react-native-element-dropdown";
-import { saveInfo } from "../services/firebase";
-import Header from '../components/Header'
+import { getInfo, saveInfo } from "../services/firebase";
+import Header from "../components/Header";
 import { useNavigation } from "@react-navigation/native";
 
 // Colors
-import {
-  black,
-  grey,
-  white,
-  brightBlue,
-} from "../styles";
+import { black, grey, white, brightBlue } from "../styles";
 
 export default function CalculatorScreen() {
-    const navigation = useNavigation();
-  
+  const navigation = useNavigation();
+  const [hasInfo, setHasInfo] = useState(false);
+  const [infoFromDatabase, setInfoFromDatabase] = useState({
+    age: null,
+    gender: null,
+    height: null,
+    weight: null,
+    activityLevel: null,
+    goal: null,
+  });
   const [info, setInfo] = useState({
     age: null,
     gender: null,
@@ -47,13 +50,36 @@ export default function CalculatorScreen() {
     { label: "Hard exercise/sports 6-7 days a week", value: "actively" },
     { label: "Very hard exercise/physical job", value: "extra" },
   ];
+  const fetchInfo = async () => {
+    try {
+      const data = await getInfo();
+
+      console.log("info from database", data);
+
+      if (data) {
+        setInfoFromDatabase(data);
+        setHasInfo(true);
+      } else {
+        setHasInfo(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInfo();
+  }, []);
+
+  useEffect(() => {
+  if (infoFromDatabase) {
+    setInfo(infoFromDatabase);
+  }
+}, [infoFromDatabase]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
-      <Header 
-          title={"Enter your details"}
-          showBack={true}
-        />
+      <Header title={"Enter your details"} showBack={true} />
       <View style={styles.container}>
         <View style={styles.form}>
           <View style={styles.input}>

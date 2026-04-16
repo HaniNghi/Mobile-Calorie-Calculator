@@ -40,7 +40,6 @@ export default function BottomTab() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Diary" component={Diary} />
       <Tab.Screen name="Analystics" component={Analystics}/>
     </Tab.Navigator>

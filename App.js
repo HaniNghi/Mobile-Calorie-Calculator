@@ -7,23 +7,31 @@ import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { auth } from "./firebaseConfig";
+import { auth, database } from "./firebaseConfig";
 import BottomTab from "./components/BottomTab";
 import Result from "./screens/Result";
-import Diary from "./screens/Diary"
+import Diary from "./screens/Diary";
+import { getResult } from "./services/firebase";
 const Stack = createNativeStackNavigator();
-
 
 export default function App() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [hasResult, setHasResult] = useState();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
+      if (user) {
+        const resultFromDatabase = await getResult();
+        if (resultFromDatabase) {
+        setHasResult(true);
+        }
+      } else {
+        setHasResult(false);
+      }
       setLoading(false);
     });
-
     return unsubscribe;
   }, []);
 
@@ -33,14 +41,17 @@ export default function App() {
     <NavigationContainer>
       {user ? (
         // USER IS LOGGED IN
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Calculator" component={CalculatorScreen} />
-          <Stack.Screen name="Result" component={Result} />
-          <Stack.Screen name="Diary" component={Diary} />
-
-
-        </Stack.Navigator>
+        hasResult ? (
+          // USER HAS RESULT
+          <BottomTab />
+        ) : (
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Calculator" component={CalculatorScreen} />
+            <Stack.Screen name="Result" component={Result} />
+            <Stack.Screen name="Diary" component={Diary} />
+          </Stack.Navigator>
+        )
       ) : (
         // USER NOT LOGGED IN
         <Stack.Navigator screenOptions={{ headerShown: false }}>

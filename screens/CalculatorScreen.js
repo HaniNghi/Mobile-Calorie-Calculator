@@ -14,17 +14,13 @@ import { saveInfo } from "../services/firebase";
 import Header from '../components/Header'
 import { useNavigation } from "@react-navigation/native";
 
-
 // Colors
 import {
   black,
   grey,
   white,
-  muted,
-  darkLight,
   brightBlue,
 } from "../styles";
-import BottomTab from "../components/BottomTab";
 
 export default function CalculatorScreen() {
     const navigation = useNavigation();
@@ -45,9 +41,11 @@ export default function CalculatorScreen() {
     { label: "Gain weight", value: "gain" },
   ];
   const activityLevels = [
-    { label: "Low (little or no exercise)", value: "low" },
-    { label: "Medium (3–5 days/week)", value: "medium" },
-    { label: "High (intense daily exercise)", value: "high" },
+    { label: "Little/no exercise, desk job", value: "sedentary" },
+    { label: "Light exercise/sports 1-3 days/week", value: "lightly" },
+    { label: "Moderate exercise/sports 3-5 days/week", value: "moderately" },
+    { label: "Hard exercise/sports 6-7 days a week", value: "actively" },
+    { label: "Very hard exercise/physical job", value: "extra" },
   ];
 
   return (
@@ -169,7 +167,7 @@ export default function CalculatorScreen() {
               onPress={async () => {
                 try {
                   await saveInfo(info);
-                  navigation.navigate("Result");
+                  navigation.navigate("Result", { info });
                   Alert.alert("Successfully save your information");
                 } catch (error) {
                   Alert.alert("Failed to save your information", error.message);

@@ -35,7 +35,7 @@ export default function Header ({ title, onBackPress, showBack }){
                     <Ionicons
                         name="chevron-back"
                         size={24}
-                        color="#fff"
+                        color={white}
                     />
                 </TouchableOpacity>
             )}

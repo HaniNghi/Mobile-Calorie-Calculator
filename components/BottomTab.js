@@ -5,6 +5,9 @@ import HomeScreen from "../screens/HomeScreen";
 import CalculatorScreen from "../screens/CalculatorScreen";
 
 import { black, brightBlue, grey } from "../styles";
+import Result from "../screens/Result";
+import { useEffect, useState } from "react";
+import { getInfo } from "../services/firebase";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +19,7 @@ export default function BottomTab() {
 
         tabBarStyle: {
           backgroundColor: black,
-          borderTopColor: "#1f2937",
+          borderTopColor: brightBlue,
           height: 60,
           paddingBottom: 10,
         },
@@ -31,7 +34,7 @@ export default function BottomTab() {
             iconName = "home";
           } else if (route.name === "Calculator") {
             iconName = "calculator";
-          }
+          } else if (route.name === "Result") iconName = "accessibility-outline";
 
           return <Ionicons name={iconName} size={22} color={color} />;
         },
@@ -39,6 +42,7 @@ export default function BottomTab() {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Calculator" component={CalculatorScreen} />
+      <Tab.Screen name="Result" component={Result}/>
     </Tab.Navigator>
   );
 }

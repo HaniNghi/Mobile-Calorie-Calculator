@@ -6,6 +6,8 @@ import CalculatorScreen from "../screens/CalculatorScreen";
 
 import { black, brightBlue, grey } from "../styles";
 import Result from "../screens/Result";
+import Diary from "../screens/Diary";
+import Analystics from "../screens/Analystics"
 
 const Tab = createBottomTabNavigator();
 
@@ -39,8 +41,8 @@ export default function BottomTab() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Calculator" component={CalculatorScreen} />
-      <Tab.Screen name="Result" component={Result}/>
+      <Tab.Screen name="Diary" component={Diary} />
+      <Tab.Screen name="Analystics" component={Analystics}/>
     </Tab.Navigator>
   );
 }

@@ -68,7 +68,7 @@ export async function getInfo(){
 export async function saveResult(result) {
   set(ref(database, "result/" + auth.currentUser.uid), {
     tdee: result.tdee,
-    goalCalorie: result.goalCalories,
+    goalCalories: result.goalCalories,
   });
   console.log(result)
 }

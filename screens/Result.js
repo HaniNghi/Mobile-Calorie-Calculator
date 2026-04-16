@@ -20,7 +20,7 @@ import {
 } from "../styles";
 import Header from "../components/Header";
 import CalorieCircle from "../components/CalorieCircle";
-import { saveResult } from "../services/firebase";
+import { saveResult, getResult } from "../services/firebase";
 
 export default function Result({ route }) {
   const info = route?.params?.info;
@@ -74,17 +74,31 @@ export default function Result({ route }) {
   };
 
   useEffect(() => {
-    if (!info) return;
+    const loadResult = async () => {
+      if (!info) return;
 
-    const tdee = calculateTDEE(info);
-    if (!tdee) return;
+      const dbResult = await getResult();
 
-    const adjusted = applyGoal(tdee, info.goal);
+      let finalResult;
 
-    setResult({
-      tdee,
-      goalCalories: adjusted,
-    });
+      if (dbResult && dbResult.tdee && dbResult.goalCalories) {
+        finalResult = dbResult;
+      } else {
+        const tdee = calculateTDEE(info);
+        if (!tdee) return;
+
+        const adjusted = applyGoal(tdee, info.goal);
+
+        finalResult = {
+          tdee,
+          goalCalories: adjusted,
+        };
+      }
+
+      setResult(finalResult);
+    };
+
+    loadResult();
   }, [info]);
 
   if (!info) {
@@ -118,7 +132,7 @@ export default function Result({ route }) {
         onPress={async () => {
           try {
             await saveResult(result);
-            console.log("Result", result)
+            console.log("Result", result);
             Alert.alert("Successfully save your result");
           } catch (error) {
             Alert.alert("Failed to save your result", error.message);
@@ -170,8 +184,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    margin:20,
-
+    margin: 20,
 
     // marginHorizontal: 20,
     shadowColor: brightBlue,
@@ -179,7 +192,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 5,
-
   },
   btnText: {
     color: white,

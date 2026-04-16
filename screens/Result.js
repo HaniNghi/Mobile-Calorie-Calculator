@@ -9,12 +9,20 @@ import {
   TouchableOpacity,
 } from "react-native";
 // Colors
-import { black, grey, white, muted, darkLight, brightBlue, lightBlue } from "../styles";
+import {
+  black,
+  grey,
+  white,
+  muted,
+  darkLight,
+  brightBlue,
+  lightBlue,
+} from "../styles";
 import Header from "../components/Header";
 import CalorieCircle from "../components/CalorieCircle";
 
 export default function Result({ route }) {
-  const { info } = route.params;
+  const info = route?.params?.info;
   const [result, setResult] = useState(0);
   const [goalCalories, setGoalCalories] = useState(0);
 
@@ -74,6 +82,17 @@ export default function Result({ route }) {
     setGoalCalories(adjusted);
   }, [info]);
 
+  if (!info) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
+        <Header title="Result" showBack />
+        <Text style={{ color: white, textAlign: "center", marginTop: 50 }}>
+          No data available
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
       <Header title={"Result"} showBack={true} />
@@ -102,7 +121,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   resultContainer: {
-    alignItems: 'center'
+    alignItems: "center",
   },
   circle: {
     display: "flex",
@@ -114,7 +133,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 30,
     fontSize: 18,
-    width: '70%'
+    width: "70%",
   },
   goal: {
     color: lightBlue,

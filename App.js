@@ -11,6 +11,8 @@ import { auth } from "./firebaseConfig";
 import BottomTab from "./components/BottomTab";
 import Result from "./screens/Result";
 const Stack = createNativeStackNavigator();
+
+
 export default function App() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);

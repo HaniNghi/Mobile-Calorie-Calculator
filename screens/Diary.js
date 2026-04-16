@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View , FlatList, TouchableOpacity} from "react-native";
 // Colors
 import { black, grey, white, brightBlue, lightBlue } from "../styles";
 import { useEffect, useState } from "react";
@@ -12,7 +12,8 @@ export default function Diary() {
     goalCalories: null,
   });
   const [consumption, setConsumption] = useState(0);
-  const [items, setItems] = useState([])
+  const [foods, setFoods] = useState([]);
+  const [exercises, setExercises] = useState([]);
 
   useEffect(() => {
     const fetchResult = async () => {
@@ -33,8 +34,45 @@ export default function Diary() {
       </View>
       <CalorieCircle value={consumption} max={result.goalCalories} />
       <Text style={styles.text}>Your calories today</Text>
-      <View>
 
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Foods</Text>
+
+        <FlatList
+          data={foods}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.row}>
+              <Text style={styles.itemText}>{item.name}</Text>
+              <Text style={styles.kcal}>{item.kcal} kcal</Text>
+            </View>
+          )}
+        />
+        <TouchableOpacity style={styles.addBtn}>
+          <Text style={styles.addText}>+ Add Food</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Exercises</Text>
+
+        <FlatList
+          data={exercises}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.row}>
+              <View>
+                <Text style={styles.itemText}>{item.name}</Text>
+                <Text style={styles.subText}>{item.time}</Text>
+              </View>
+              <Text style={styles.kcal}>{item.kcal} kcal</Text>
+            </View>
+          )}
+        />
+
+        <TouchableOpacity style={styles.addBtn}>
+          <Text style={styles.addText}>+ Add Exercises</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -45,8 +83,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: black,
   },
-  goal:{
-color: lightBlue,
+  goal: {
+    color: lightBlue,
     alignSelf: "center",
     fontSize: 30,
     fontWeight: 600,
@@ -62,4 +100,33 @@ color: lightBlue,
     alignItems: "center",
     margin: 20,
   },
+  section: {
+    backgroundColor: "#111",
+    borderRadius: 12,
+    padding: 12,
+    marginTop: 20,
+  },
+  sectionTitle: {
+    color: "white",
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 8,
+  },
+  itemText: { color: "white" },
+  subText: { color: "#aaa", fontSize: 12 },
+  kcal: { color: "white" },
+
+  addBtn: {
+    marginTop: 10,
+    backgroundColor: "#1D4ED8",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  addText: { color: "white" },
+
 });

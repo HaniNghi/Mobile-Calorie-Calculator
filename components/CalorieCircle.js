@@ -25,11 +25,11 @@ export default function CalorieCircle({
   const strokeDashoffset = circumference * (1 - progress);
 
   return (
-    <View style={{ width: size, height: size }}>
+    <View style={{ width: size, height: size, alignSelf: 'center' }}>
       <Svg width={size} height={size}>
         {/* Background */}
         <Circle
-          stroke={black}
+          stroke={muted}
           fill="none"
           cx={size / 2}
           cy={size / 2}

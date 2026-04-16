@@ -1,13 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-import HomeScreen from "../screens/HomeScreen";
-import CalculatorScreen from "../screens/CalculatorScreen";
-
 import { black, brightBlue, grey } from "../styles";
 import Result from "../screens/Result";
 import Diary from "../screens/Diary";
-import Analystics from "../screens/Analystics"
+import Graph from "../screens/Graph"
 
 const Tab = createBottomTabNavigator();
 
@@ -30,18 +27,17 @@ export default function BottomTab() {
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === "Home") {
-            iconName = "home";
-          } else if (route.name === "Calculator") {
-            iconName = "calculator";
-          } else if (route.name === "Result") iconName = "accessibility-outline";
-
+          if (route.name === "Diary") {
+            iconName = "body-outline";
+          } else if (route.name === "Graph") {
+            iconName = "analytics-outline";
+          } 
           return <Ionicons name={iconName} size={22} color={color} />;
         },
       })}
     >
       <Tab.Screen name="Diary" component={Diary} />
-      <Tab.Screen name="Analystics" component={Analystics}/>
+      <Tab.Screen name="Graph" component={Graph}/>
     </Tab.Navigator>
   );
 }

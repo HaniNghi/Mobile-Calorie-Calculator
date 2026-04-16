@@ -21,8 +21,11 @@ import {
 import Header from "../components/Header";
 import CalorieCircle from "../components/CalorieCircle";
 import { saveResult, getResult } from "../services/firebase";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function Result({ route }) {
+    const navigation = useNavigation();
   const info = route?.params?.info;
   const [result, setResult] = useState({
     tdee: 0,
@@ -134,6 +137,7 @@ export default function Result({ route }) {
             await saveResult(result);
             console.log("Result", result);
             Alert.alert("Successfully save your result");
+            navigation.navigate("Diary");
           } catch (error) {
             Alert.alert("Failed to save your result", error.message);
           }
@@ -177,14 +181,14 @@ const styles = StyleSheet.create({
     fontWeight: 600,
   },
   btn: {
-    width: 200,
+    width: 300,
     backgroundColor: brightBlue,
     borderRadius: 12,
     height: 52,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    margin: 20,
+    margin: 90,
 
     // marginHorizontal: 20,
     shadowColor: brightBlue,

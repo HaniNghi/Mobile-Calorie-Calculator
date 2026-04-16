@@ -193,8 +193,8 @@ export default function CalculatorScreen() {
               onPress={async () => {
                 try {
                   await saveInfo(info);
-                  navigation.navigate("Result", { info });
                   Alert.alert("Successfully save your information");
+                  navigation.navigate("Result", { info });
                 } catch (error) {
                   Alert.alert("Failed to save your information", error.message);
                 }

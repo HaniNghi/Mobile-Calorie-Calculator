@@ -12,6 +12,8 @@ import BottomTab from "./components/BottomTab";
 import Result from "./screens/Result";
 import Diary from "./screens/Diary";
 import { getResult } from "./services/firebase";
+import AddFood from "./screens/AddFood";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -25,7 +27,7 @@ export default function App() {
       if (user) {
         const resultFromDatabase = await getResult();
         if (resultFromDatabase) {
-        setHasResult(true);
+          setHasResult(true);
         }
       } else {
         setHasResult(false);
@@ -43,13 +45,15 @@ export default function App() {
         // USER IS LOGGED IN
         hasResult ? (
           // USER HAS RESULT
-          <BottomTab />
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="MainTabs" component={BottomTab} />
+            <Stack.Screen name="AddFood" component={AddFood} />
+          </Stack.Navigator>
         ) : (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Calculator" component={CalculatorScreen} />
             <Stack.Screen name="Result" component={Result} />
-            <Stack.Screen name="Diary" component={Diary} />
           </Stack.Navigator>
         )
       ) : (

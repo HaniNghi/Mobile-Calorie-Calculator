@@ -5,8 +5,10 @@ import { black, grey, white, brightBlue, lightBlue } from "../styles";
 import { useEffect, useState } from "react";
 import { getResult } from "../services/firebase";
 import CalorieCircle from "../components/CalorieCircle";
-
+import { useNavigation } from "@react-navigation/native";
+import AddFood from "./AddFood"
 export default function Diary() {
+    const navigation= useNavigation()
   const [result, setResult] = useState({
     tdee: null,
     goalCalories: null,
@@ -48,7 +50,7 @@ export default function Diary() {
             </View>
           )}
         />
-        <TouchableOpacity style={styles.addBtn}>
+        <TouchableOpacity onPress={() =>navigation.navigate("AddFood")} style={styles.addBtn}>
           <Text style={styles.addText}>+ Add Food</Text>
         </TouchableOpacity>
       </View>

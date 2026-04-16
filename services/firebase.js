@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, updateProfile , signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { database } from "../firebaseConfig";
-import { getDatabase, ref, set, get } from "firebase/database";
+import { push, getDatabase, ref, set, get } from "firebase/database";
 
 export async function createUser(inputUser) {
   try {
@@ -73,6 +73,8 @@ export async function saveResult(result) {
   console.log(result)
 }
 
+
+
 export async function getResult(){
   try {
     const user = auth.currentUser;
@@ -82,6 +84,41 @@ export async function getResult(){
 
     if (snapshot.exists()) {
       console.log("getResult ",snapshot.val())
+      return snapshot.val();
+    } else {
+      console.log("No data found");
+      return null;
+    }
+  } catch (error) {
+    console.log("Error:", error.message);
+  }
+}
+
+// export async function saveFood(food) {
+//   set(ref(database, "food/" + food.id), {
+//     id: food.id,
+//     name: food.name,
+//     kcal: food.kcal,
+//     unit: food.unit,
+//   });
+// }
+
+export async function saveFood(food) {
+  const newRef = push(ref(database, "food"));
+
+  return set(newRef, {
+    id: newRef.key,
+    name: food.name,
+    kcal: food.kcal,
+    unit: food.unit,
+  });
+}
+
+export async function getDefaultFoods(){
+  try {
+    const snapshot = await get(ref(database, "food"));
+
+    if (snapshot.exists()) {
       return snapshot.val();
     } else {
       console.log("No data found");

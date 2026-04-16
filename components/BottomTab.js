@@ -5,6 +5,7 @@ import { black, brightBlue, grey } from "../styles";
 import Result from "../screens/Result";
 import Diary from "../screens/Diary";
 import Graph from "../screens/Graph"
+import AddFood from "../screens/AddFood";
 
 const Tab = createBottomTabNavigator();
 

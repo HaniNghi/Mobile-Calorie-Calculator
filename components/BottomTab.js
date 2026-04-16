@@ -6,8 +6,6 @@ import CalculatorScreen from "../screens/CalculatorScreen";
 
 import { black, brightBlue, grey } from "../styles";
 import Result from "../screens/Result";
-import { useEffect, useState } from "react";
-import { getInfo } from "../services/firebase";
 
 const Tab = createBottomTabNavigator();
 

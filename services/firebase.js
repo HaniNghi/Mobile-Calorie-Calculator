@@ -64,3 +64,30 @@ export async function getInfo(){
     console.log("Error:", error.message);
   }
 }
+
+export async function saveResult(result) {
+  set(ref(database, "result/" + auth.currentUser.uid), {
+    tdee: result.tdee,
+    goalCalories: result.goalCalories,
+  });
+  console.log(result)
+}
+
+export async function getResult(){
+  try {
+    const user = auth.currentUser;
+    if (!user) return null;
+
+    const snapshot = await get(ref(database, `result/${user.uid}`));
+
+    if (snapshot.exists()) {
+      console.log("getResult ",snapshot.val())
+      return snapshot.val();
+    } else {
+      console.log("No data found");
+      return null;
+    }
+  } catch (error) {
+    console.log("Error:", error.message);
+  }
+}

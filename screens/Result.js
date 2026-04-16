@@ -9,14 +9,28 @@ import {
   TouchableOpacity,
 } from "react-native";
 // Colors
-import { black, grey, white, muted, darkLight, brightBlue, lightBlue } from "../styles";
+import {
+  black,
+  grey,
+  white,
+  muted,
+  darkLight,
+  brightBlue,
+  lightBlue,
+} from "../styles";
 import Header from "../components/Header";
 import CalorieCircle from "../components/CalorieCircle";
+import { saveResult, getResult } from "../services/firebase";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function Result({ route }) {
-  const { info } = route.params;
-  const [result, setResult] = useState(0);
-  const [goalCalories, setGoalCalories] = useState(0);
+    const navigation = useNavigation();
+  const info = route?.params?.info;
+  const [result, setResult] = useState({
+    tdee: 0,
+    goalCalories: 0,
+  });
 
   const calculateTDEE = (info) => {
     const { age, gender, height, weight, activityLevel, goal } = info;
@@ -63,16 +77,43 @@ export default function Result({ route }) {
   };
 
   useEffect(() => {
-    if (!info) return;
+    const loadResult = async () => {
+      if (!info) return;
 
-    const tdee = calculateTDEE(info);
-    if (!tdee) return;
+      const dbResult = await getResult();
 
-    setResult(tdee);
+      let finalResult;
 
-    const adjusted = applyGoal(tdee, info.goal);
-    setGoalCalories(adjusted);
+      if (dbResult && dbResult.tdee && dbResult.goalCalories) {
+        finalResult = dbResult;
+      } else {
+        const tdee = calculateTDEE(info);
+        if (!tdee) return;
+
+        const adjusted = applyGoal(tdee, info.goal);
+
+        finalResult = {
+          tdee,
+          goalCalories: adjusted,
+        };
+      }
+
+      setResult(finalResult);
+    };
+
+    loadResult();
   }, [info]);
+
+  if (!info) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
+        <Header title="Result" showBack />
+        <Text style={{ color: white, textAlign: "center", marginTop: 50 }}>
+          No data available
+        </Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
@@ -80,16 +121,32 @@ export default function Result({ route }) {
       <View style={styles.resultContainer}>
         <Text style={styles.title}>Your daily calorie needs</Text>
         <View style={styles.circle}>
-          <CalorieCircle value={result} max={result} />
+          <CalorieCircle value={result.tdee} max={result.tdee} />
         </View>
         <Text style={styles.text}>
           To achieve your {info.goal} weight goal, you should eat approximately
         </Text>
-        <Text style={styles.goal}>{goalCalories} kcal/day</Text>
+        <Text style={styles.goal}>{result.goalCalories} kcal/day</Text>
         <Text style={styles.text}>
           We’ll help you track your calories and reach your goals.
         </Text>
       </View>
+      <TouchableOpacity
+        onPress={async () => {
+          try {
+            await saveResult(result);
+            console.log("Result", result);
+            Alert.alert("Successfully save your result");
+            navigation.navigate("Diary");
+          } catch (error) {
+            Alert.alert("Failed to save your result", error.message);
+          }
+        }}
+      >
+        <View style={styles.btn}>
+          <Text style={styles.btnText}>Save and start your journey!</Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -102,7 +159,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   resultContainer: {
-    alignItems: 'center'
+    alignItems: "center",
   },
   circle: {
     display: "flex",
@@ -114,7 +171,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 30,
     fontSize: 18,
-    width: '70%'
+    width: "70%",
   },
   goal: {
     color: lightBlue,
@@ -122,5 +179,28 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 28,
     fontWeight: 600,
+  },
+  btn: {
+    width: 300,
+    backgroundColor: brightBlue,
+    borderRadius: 12,
+    height: 52,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    margin: 90,
+
+    // marginHorizontal: 20,
+    shadowColor: brightBlue,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  btnText: {
+    color: white,
+    fontSize: 17,
+    fontWeight: "600",
+    textAlign: "center",
   },
 });

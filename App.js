@@ -10,7 +10,10 @@ import { useEffect, useState } from "react";
 import { auth } from "./firebaseConfig";
 import BottomTab from "./components/BottomTab";
 import Result from "./screens/Result";
+import Diary from "./screens/Diary"
 const Stack = createNativeStackNavigator();
+
+
 export default function App() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
@@ -31,7 +34,12 @@ export default function App() {
       {user ? (
         // USER IS LOGGED IN
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Main" component={BottomTab} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Calculator" component={CalculatorScreen} />
+          <Stack.Screen name="Result" component={Result} />
+          <Stack.Screen name="Diary" component={Diary} />
+
+
         </Stack.Navigator>
       ) : (
         // USER NOT LOGGED IN

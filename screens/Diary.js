@@ -72,7 +72,7 @@ export default function Diary() {
           )}
         />
 
-        <TouchableOpacity style={styles.addBtn}>
+        <TouchableOpacity onPress={() =>navigation.navigate("AddExercise")} style={styles.addBtn}>
           <Text style={styles.addText}>+ Add Exercises</Text>
         </TouchableOpacity>
       </View>

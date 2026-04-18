@@ -128,3 +128,19 @@ export async function getDefaultFoods(){
     console.log("Error:", error.message);
   }
 }
+
+export async function addFoodToDay(date, food) {
+  try {
+    const mealRef = ref(database, `days/${date}`);
+
+    await set(mealRef, {
+      name: food.name,
+      kcal: food.kcal,
+      unit: food.unit,
+      amount: food.amount,
+    });
+
+  } catch (error) {
+    console.log("Error adding food:", error.message);
+  }
+}

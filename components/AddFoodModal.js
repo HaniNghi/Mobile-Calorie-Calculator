@@ -1,12 +1,15 @@
-import { Modal, View, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  Modal,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { useState, useEffect } from "react";
+import { black, brightBlue, faded, grey, lightBlue, muted, white } from "../styles";
 
-export default function AddFoodModal({
-  visible,
-  food,
-  onClose,
-  onSave
-}) {
+export default function AddFoodModal({ visible, food, onClose, onSave }) {
   const [amount, setAmount] = useState("100");
 
   // Reset amount when new food is selected
@@ -27,62 +30,68 @@ export default function AddFoodModal({
 
   return (
     <Modal visible={visible} transparent animationType="fade">
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "rgba(0,0,0,0.5)"
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: "white",
-            padding: 20,
-            borderRadius: 10,
-            width: "80%"
-          }}
-        >
-          <Text style={{ fontSize: 18 }}>
-            {food?.name}
-          </Text>
+      <View style={styles.background}>
+        <View style={styles.box}>
+          <Text style={styles.name}>{food?.name}</Text>
 
-          <Text>Amount ({food?.unit})</Text>
+          <Text>Unit: {food?.unit}</Text>
 
           <TextInput
             value={amount}
             onChangeText={setAmount}
             keyboardType="numeric"
-            style={{
-              borderWidth: 1,
-              marginVertical: 10,
-              padding: 10
-            }}
+            style={styles.input}
           />
 
           {/* Optional kcal preview */}
-          {food && (
-            <Text>
-              {Math.round(food.kcal * (amount / 100))} kcal
-            </Text>
-          )}
+          {food && <Text>{Math.round(food.kcal * (amount / 100))} kcal</Text>}
 
-          <TouchableOpacity
-            onPress={handleSave}
-            style={{ backgroundColor: "black", padding: 10, marginTop: 10 }}
-          >
-            <Text style={{ color: "white", textAlign: "center" }}>
-              Save
-            </Text>
+          <TouchableOpacity onPress={handleSave} style={styles.saveBtn}>
+            <Text style={styles.saveText}>Save</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={onClose}>
-            <Text style={{ textAlign: "center", marginTop: 10 }}>
-              Cancel
-            </Text>
+            <Text style={styles.cancel}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: faded,
+  },
+  box: {
+    backgroundColor: muted,
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+  },
+  name: {
+    fontSize: 18,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: grey,
+    marginVertical: 10,
+    padding: 10,
+  },
+  saveBtn: {
+    backgroundColor: brightBlue,
+    padding: 10,
+    marginTop: 10,
+  },
+  saveText: {
+    color: white,
+    textAlign: "center",
+  },
+  cancel: {
+    textAlign: "center",
+    marginTop: 10,
+  },
+});

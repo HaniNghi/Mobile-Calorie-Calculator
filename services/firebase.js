@@ -159,3 +159,10 @@ export async function getDayFoods(date) {
     console.log("Error:", error.message);
   }
 }
+export async function deleteFoodFromDay(date, id) {
+  try {
+    await remove(ref(database, `days/${date}/foods/${id}`));
+  } catch (error) {
+    console.log("Error deleting:", error.message);
+  }
+}

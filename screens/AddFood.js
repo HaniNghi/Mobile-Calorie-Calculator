@@ -11,7 +11,7 @@ import Header from "../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect } from "react";
 import FoodCard from "../components/FoodCard";
-import { getDefaultFoods , addFoodToDay , getDayFoods} from "../services/firebase";
+import { getDefaultFoods , addFoodToDay , getDayFoods, deleteFoodFromDay} from "../services/firebase";
 import AddFoodModal from "../components/AddFoodModal";
 
 export default function AddFood() {
@@ -34,13 +34,20 @@ export default function AddFood() {
     const data = await getDayFoods(today);
 
     if (data) {
-      setTodayFoods(Object.values(data));
+       const foodsArray = Object.entries(data).map(([id, value]) => ({
+      id,
+      ...value
+    }));
+
+    setTodayFoods(foodsArray);
     } else {
       setTodayFoods([]);
     }
   };
 
   const handleSaveFood = async (amount) => {
+    if (!selectedFood) return;
+
     const foodWithAmount = {
       ...selectedFood,
       amount,
@@ -51,8 +58,14 @@ export default function AddFood() {
     setModalVisible(false);
     setSelectedFood(null);
 
-    fetchTodayFoods(); 
+    await fetchTodayFoods(); // refresh list
   };
+
+  const handleDelete = async (id) => {
+    await deleteFoodFromDay(today, id)
+
+    fetchTodayFoods(); // refresh list
+  }
 
   useEffect(() => {
     fetchDefaultFoods();
@@ -69,14 +82,14 @@ export default function AddFood() {
       <FlatList
         style={styles.foodList}
         data={todayFoods}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <FoodCard
             name={item.name}
             kcal={item.kcal}
             unit={item.unit}
             amount={item.amount}
-            onDelete={() => console.log("Delete", item.name)}
+            onDelete={() => handleDelete(item.id)}
           />
         )}
       />
@@ -84,7 +97,7 @@ export default function AddFood() {
       <FlatList
         style={styles.foodList}
         data={defaultFoods}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <FoodCard
             name={item.name}

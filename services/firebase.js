@@ -133,9 +133,9 @@ export async function getDefaultFoods() {
 
 export async function addFoodToDay(date, food) {
   try {
-    const mealRef = ref(database, `days/${date}`);
+    const mealRef = ref(database, `days/${date}/foods`);
 
-    await set(mealRef, {
+    await push(mealRef, {
       name: food.name,
       kcal: food.kcal,
       unit: food.unit,
@@ -147,7 +147,7 @@ export async function addFoodToDay(date, food) {
 }
 export async function getDayFoods(date) {
   try {
-    const snapshot = await get(ref(database, `days/${date}`));
+    const snapshot = await get(ref(database, `days/${date}/foods`));
 
     if (snapshot.exists()) {
       return snapshot.val();

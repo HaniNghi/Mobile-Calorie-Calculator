@@ -1,4 +1,8 @@
-import { createUserWithEmailAndPassword, updateProfile , signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { database } from "../firebaseConfig";
 import { push, getDatabase, ref, set, get } from "firebase/database";
@@ -8,7 +12,7 @@ export async function createUser(inputUser) {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       inputUser.email,
-      inputUser.password
+      inputUser.password,
     );
     const user = userCredential.user;
     if (user) {
@@ -26,7 +30,7 @@ export async function login(email, password) {
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     );
     const user = userCredential.user;
   } catch (error) {
@@ -43,10 +47,10 @@ export async function saveInfo(info) {
     activityLevel: info.activityLevel,
     goal: info.goal,
   });
-  console.log(info)
+  console.log(info);
 }
 
-export async function getInfo(){
+export async function getInfo() {
   try {
     const user = auth.currentUser;
     if (!user) return null;
@@ -54,7 +58,7 @@ export async function getInfo(){
     const snapshot = await get(ref(database, `info/${user.uid}`));
 
     if (snapshot.exists()) {
-      console.log("getInfo ",snapshot.val())
+      console.log("getInfo ", snapshot.val());
       return snapshot.val();
     } else {
       console.log("No data found");
@@ -70,12 +74,10 @@ export async function saveResult(result) {
     tdee: result.tdee,
     goalCalories: result.goalCalories,
   });
-  console.log(result)
+  console.log(result);
 }
 
-
-
-export async function getResult(){
+export async function getResult() {
   try {
     const user = auth.currentUser;
     if (!user) return null;
@@ -83,7 +85,7 @@ export async function getResult(){
     const snapshot = await get(ref(database, `result/${user.uid}`));
 
     if (snapshot.exists()) {
-      console.log("getResult ",snapshot.val())
+      console.log("getResult ", snapshot.val());
       return snapshot.val();
     } else {
       console.log("No data found");
@@ -114,7 +116,7 @@ export async function saveFood(food) {
   });
 }
 
-export async function getDefaultFoods(){
+export async function getDefaultFoods() {
   try {
     const snapshot = await get(ref(database, "food"));
 
@@ -139,8 +141,21 @@ export async function addFoodToDay(date, food) {
       unit: food.unit,
       amount: food.amount,
     });
-
   } catch (error) {
     console.log("Error adding food:", error.message);
+  }
+}
+export async function getDayFoods(date) {
+  try {
+    const snapshot = await get(ref(database, `days/${date}`));
+
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      console.log("No data found");
+      return null;
+    }
+  } catch (error) {
+    console.log("Error:", error.message);
   }
 }

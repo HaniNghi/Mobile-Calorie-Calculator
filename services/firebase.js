@@ -5,7 +5,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { database } from "../firebaseConfig";
-import { push, getDatabase, ref, set, get } from "firebase/database";
+import { push, getDatabase, ref, set, get, remove } from "firebase/database";
 
 export async function createUser(inputUser) {
   try {

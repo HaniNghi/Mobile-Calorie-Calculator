@@ -17,7 +17,7 @@ export default function FoodCard({
         </Text>
         {amount && (
           <Text>
-            Amount: {amount} {unit}
+            Amount: {amount} {unit} - {Math.round(kcal * (amount / 100))} kcal
           </Text>
         )}
       </View>

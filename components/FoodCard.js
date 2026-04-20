@@ -1,4 +1,6 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { muted, white } from "../styles";
+import { mutationRef } from "firebase/data-connect";
 
 export default function FoodCard({
   name,
@@ -11,24 +13,24 @@ export default function FoodCard({
   return (
     <View style={styles.container}>
       <View style={styles.info}>
-        <Text>{name}</Text>
-        <Text>
+        <Text style={{ color: white}}>{name}</Text>
+        <Text style={{ color: muted}}>
           {kcal} kcal/ 100 {unit}
         </Text>
         {amount && (
-          <Text>
+          <Text style={{ color: muted}}>
             Amount: {amount} {unit} - {Math.round(kcal * (amount / 100))} kcal
           </Text>
         )}
       </View>
       {onAdd && (
         <TouchableOpacity onPress={onAdd}>
-          <Text style={{ fontSize: 18 }}>＋</Text>
+          <Text style={{ fontSize: 18, color: muted }}>＋</Text>
         </TouchableOpacity>
       )}
       {onDelete && (
         <TouchableOpacity onPress={onDelete}>
-        <Text style={{ fontSize: 18 }}>-</Text>
+        <Text style={{ fontSize: 18, color: muted}}>-</Text>
       </TouchableOpacity>
       )}
     </View>

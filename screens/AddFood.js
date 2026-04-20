@@ -6,7 +6,7 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
-import { black, white } from "../styles";
+import { black, brightBlue, faded, grey, white } from "../styles";
 import Header from "../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect } from "react";
@@ -78,7 +78,7 @@ export default function AddFood() {
       style={{ flex: 1, alignItems: "center", backgroundColor: black }}
     >
       <Header title={"Add food"} showBack={true} />
-      <Text style={{ color: white }}>Add food</Text>
+      <Text style={styles.listTitle}>Today foods</Text>
       <FlatList
         style={styles.foodList}
         data={todayFoods}
@@ -94,6 +94,7 @@ export default function AddFood() {
         )}
       />
 
+      <Text style={styles.listTitle}>Default foods</Text>
       <FlatList
         style={styles.foodList}
         data={defaultFoods}
@@ -123,8 +124,15 @@ export default function AddFood() {
 const styles = StyleSheet.create({
   foodList: {
     flex: 1,
-    backgroundColor: white,
+    backgroundColor: grey,
     width: "90%",
-    marginTop: 10,
+    borderRadius: 6,
+    maxHeight: 200,
   },
+  listTitle: {
+    color: brightBlue,
+    fontSize: 18,
+    fontWeight: 600,
+    margin: 10,
+  }
 });

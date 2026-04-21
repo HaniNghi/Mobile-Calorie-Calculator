@@ -79,6 +79,7 @@ export async function saveResult(result) {
 
 export async function getResult() {
   try {
+    const user = auth.currentUser
     if (!user) return null;
 
     const snapshot = await get(ref(database, `result/${user.uid}`));

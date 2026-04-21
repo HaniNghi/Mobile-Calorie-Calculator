@@ -161,10 +161,12 @@ export async function deleteFoodFromDay(date, id) {
 }
 
 export async function saveCustomFood(food) {
-  if (!currentUser) throw new Error("User not logged in");
+    const user = auth.currentUser
+
+  if (!user) throw new Error("User not logged in");
 
   try {
-    const customFoodRef = push(ref(database, `customFoods/${auth.currentUser.uid}`));
+    const customFoodRef = push(ref(database, `customFoods/${user.uid}`));
 
     await set(customFoodRef, {
       id: customFoodRef.key,
@@ -178,8 +180,10 @@ export async function saveCustomFood(food) {
 }
 
 export async function getUserFoods() {
-  if (!currentUser) return [];
-  const snapshot = await get(ref(database, `customFoods/${auth.currentUser.uid}`));
+    const user = auth.currentUser
+
+  if (!user) return [];
+  const snapshot = await get(ref(database, `customFoods/${user.uid}`));
 
   if (snapshot.exists()) {
     const data = snapshot.val();

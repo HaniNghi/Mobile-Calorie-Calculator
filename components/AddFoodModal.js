@@ -20,7 +20,7 @@ export default function AddFoodModal({ visible, food, onClose, onSave }) {
   }, [food]);
 
   const handleSave = () => {
-    if (!amount || isNaN(amount)) {
+    if (!amount || isNaN(amount) || amount <= 0) {
       alert("Enter valid amount");
       return;
     }

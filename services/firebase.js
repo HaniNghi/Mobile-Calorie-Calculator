@@ -6,6 +6,7 @@ import {
 import { auth } from "../firebaseConfig";
 import { database } from "../firebaseConfig";
 import { push, getDatabase, ref, set, get, remove } from "firebase/database";
+    const currentUser = auth.currentUser;
 
 export async function createUser(inputUser) {
   try {
@@ -39,7 +40,7 @@ export async function login(email, password) {
 }
 
 export async function saveInfo(info) {
-  set(ref(database, "info/" + auth.currentUser.uid), {
+  set(ref(database, "info/" + currentUser.uid), {
     age: info.age,
     gender: info.gender,
     height: info.height,
@@ -52,10 +53,9 @@ export async function saveInfo(info) {
 
 export async function getInfo() {
   try {
-    const user = auth.currentUser;
     if (!user) return null;
 
-    const snapshot = await get(ref(database, `info/${user.uid}`));
+    const snapshot = await get(ref(database, `info/${currentUser.uid}`));
 
     if (snapshot.exists()) {
       console.log("getInfo ", snapshot.val());
@@ -70,7 +70,7 @@ export async function getInfo() {
 }
 
 export async function saveResult(result) {
-  set(ref(database, "result/" + auth.currentUser.uid), {
+  set(ref(database, "result/" + currentUser.uid), {
     tdee: result.tdee,
     goalCalories: result.goalCalories,
   });
@@ -79,10 +79,9 @@ export async function saveResult(result) {
 
 export async function getResult() {
   try {
-    const user = auth.currentUser;
     if (!user) return null;
 
-    const snapshot = await get(ref(database, `result/${user.uid}`));
+    const snapshot = await get(ref(database, `result/${currentUser.uid}`));
 
     if (snapshot.exists()) {
       console.log("getResult ", snapshot.val());
@@ -95,15 +94,6 @@ export async function getResult() {
     console.log("Error:", error.message);
   }
 }
-
-// export async function saveFood(food) {
-//   set(ref(database, "food/" + food.id), {
-//     id: food.id,
-//     name: food.name,
-//     kcal: food.kcal,
-//     unit: food.unit,
-//   });
-// }
 
 export async function saveFood(food) {
   const newRef = push(ref(database, "food"));
@@ -133,7 +123,7 @@ export async function getDefaultFoods() {
 
 export async function addFoodToDay(date, food) {
   try {
-    const mealRef = ref(database, `days/${date}/foods`);
+    const mealRef = ref(database, `dayfoods/${currentUser.uid}/${date}`);
 
     await push(mealRef, {
       name: food.name,
@@ -147,7 +137,7 @@ export async function addFoodToDay(date, food) {
 }
 export async function getDayFoods(date) {
   try {
-    const snapshot = await get(ref(database, `days/${date}/foods`));
+    const snapshot = await get(ref(database, `dayfoods/${currentUser.uid}/${date}`));
 
     if (snapshot.exists()) {
       return snapshot.val();
@@ -161,8 +151,12 @@ export async function getDayFoods(date) {
 }
 export async function deleteFoodFromDay(date, id) {
   try {
-    await remove(ref(database, `days/${date}/foods/${id}`));
+    await remove(ref(database, `dayfoods/${currentUser.uid}/${date}/${id}`));
   } catch (error) {
     console.log("Error deleting:", error.message);
   }
+}
+
+export async function saveCustomFood(food) {
+  
 }

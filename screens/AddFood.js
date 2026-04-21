@@ -18,22 +18,20 @@ import {
   getDayFoods,
   deleteFoodFromDay,
   getUserFoods,
+  saveCustomFood,
 } from "../services/firebase";
 import AddFoodModal from "../components/AddFoodModal";
 import { Ionicons } from "@expo/vector-icons";
 import CustomFood from "../components/CustomFood";
-
 
 export default function AddFood() {
   const today = new Date().toISOString().split("T")[0]; // "2026-04-18"
   const [defaultFoods, setDefaultFoods] = useState([]);
   const [todayFoods, setTodayFoods] = useState([]);
   const [userFoods, setUserFoods] = useState([]);
-  const [allFoods, setAllFoods] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
-
 
   const fetchDefaultFoods = async () => {
     const data = await getDefaultFoods();
@@ -60,13 +58,13 @@ export default function AddFood() {
     }
   };
 
-  const fetchUserFoods = async () => { 
-    const data = await getUserFoods()
+  const fetchUserFoods = async () => {
+    const data = await getUserFoods();
 
-    if(data){
-      setUserFoods(data)
+    if (data) {
+      setUserFoods(data);
     }
-  }
+  };
 
   const handleSaveFood = async (amount) => {
     if (!selectedFood) return;
@@ -90,25 +88,36 @@ export default function AddFood() {
     fetchTodayFoods(); // refresh list
   };
 
+  const allFoods = useMemo(() => {
+    return [...userFoods, ...defaultFoods];
+  }, [userFoods, defaultFoods]);
+
   const filteredFoods = useMemo(() => {
     if (!Array.isArray(allFoods)) return [];
 
     return allFoods.filter((food) =>
       food.name.toLowerCase().includes(search.toLowerCase()),
     );
-  }, [defaultFoods, search]);
+  }, [allFoods, search]);
 
-  const handleSaveCustomFood =  (customFood) => {
-    alert("custom food", customFood)
-  }
+  const handleSaveCustomFood = async (customFood) => {
+    try {
+      await saveCustomFood(customFood);
+
+      await fetchUserFoods(); // refresh user foods
+
+      alert("Saved successfully");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to save food");
+    }
+  };
 
   useEffect(() => {
     fetchDefaultFoods();
     fetchTodayFoods();
     fetchUserFoods();
-    setAllFoods([...userFoods, ...defaultFoods])
   }, []);
-
 
   return (
     <SafeAreaView
@@ -133,7 +142,7 @@ export default function AddFood() {
       <Text style={styles.listTitle}>Default foods</Text>
 
       <View style={styles.searchBox}>
-        <Ionicons name="search" size={18} color={muted}/>
+        <Ionicons name="search" size={18} color={muted} />
         <TextInput
           placeholder="Search food..."
           placeholderTextColor={muted}
@@ -159,9 +168,7 @@ export default function AddFood() {
         )}
       />
       <View style={styles.customContainer}>
-        <CustomFood 
-        onSave={handleSaveCustomFood}
-        />
+        <CustomFood onSave={handleSaveCustomFood} />
       </View>
       <AddFoodModal
         visible={modalVisible}
@@ -175,7 +182,6 @@ export default function AddFood() {
 
 const styles = StyleSheet.create({
   foodList: {
-    flex: 1,
     backgroundColor: grey,
     width: "90%",
     borderRadius: 6,
@@ -204,8 +210,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   customContainer: {
-    flex: 1, 
+    flex: 1,
     width: "90%",
     maxHeight: 100,
-  }
+  },
 });

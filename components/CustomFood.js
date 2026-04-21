@@ -45,13 +45,13 @@ export default function CustomFood({ onSave }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <View style={styles.card}>
         {/* Name */}
         <View style={styles.input}>
           <Text style={styles.inputLabel}>Food Name</Text>
           <TextInput
-            style={styles.inputControl}
+            style={styles.inputControlName}
             placeholder="Watermelon"
             placeholderTextColor={muted}
             value={customFood.name}
@@ -61,9 +61,9 @@ export default function CustomFood({ onSave }) {
 
         {/* Kcal */}
         <View style={styles.input}>
-          <Text style={styles.inputLabel}>Kcal (per 100g/ml)</Text>
+          <Text style={styles.inputLabel}>Kcal</Text>
           <TextInput
-            style={styles.inputControl}
+            style={styles.inputControlKcal}
             placeholder="60"
             placeholderTextColor={muted}
             keyboardType="numeric"
@@ -105,9 +105,6 @@ export default function CustomFood({ onSave }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 5,
-  },
 
   card: {
     backgroundColor: black,
@@ -129,15 +126,26 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
 
-  inputControl: {
+  inputControlName: {
     height: 45,
     backgroundColor: grey,
     paddingHorizontal: 14,
     borderRadius: 12,
     fontSize: 15,
     color: white,
-    width: 130,
-    margin: 2,
+    width: 180,
+    marginRight: 5,
+  },
+  inputControlKcal: {
+    height: 45,
+    backgroundColor: grey,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    fontSize: 15,
+    color: white,
+    width: 80,
+    marginRight: 5,
+
   },
 
   dropdown: {

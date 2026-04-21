@@ -1,5 +1,5 @@
 import { View, Text, Button } from "react-native";
-import { saveFood } from "../services/firebase";
+import { saveDefaultFood } from "../services/firebase";
 
 export default function UploadFood() {
   const fds = [
@@ -25,7 +25,7 @@ export default function UploadFood() {
   const uploadFoods = async () => {
     try {
       fds.map(async (food)=>{
-        await saveFood(food)
+        await saveDefaultFood(food)
       })
       alert("Upload success!");
     } catch (error) {

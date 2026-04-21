@@ -96,7 +96,7 @@ export async function getResult() {
   }
 }
 
-export async function saveFood(food) {
+export async function saveDefaultFood(food) {
   const newRef = push(ref(database, "food"));
 
   return set(newRef, {

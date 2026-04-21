@@ -7,7 +7,7 @@ import {
   TextInput,
   FlatList,
 } from "react-native";
-import { black, brightBlue, faded, grey, white } from "../styles";
+import { black, brightBlue, faded, grey, muted, white } from "../styles";
 import Header from "../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect, useMemo } from "react";
@@ -17,17 +17,23 @@ import {
   addFoodToDay,
   getDayFoods,
   deleteFoodFromDay,
+  getUserFoods,
 } from "../services/firebase";
 import AddFoodModal from "../components/AddFoodModal";
 import { Ionicons } from "@expo/vector-icons";
+import CustomFood from "../components/CustomFood";
+
 
 export default function AddFood() {
   const today = new Date().toISOString().split("T")[0]; // "2026-04-18"
   const [defaultFoods, setDefaultFoods] = useState([]);
   const [todayFoods, setTodayFoods] = useState([]);
+  const [userFoods, setUserFoods] = useState([]);
+  const [allFoods, setAllFoods] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
+
 
   const fetchDefaultFoods = async () => {
     const data = await getDefaultFoods();
@@ -38,6 +44,7 @@ export default function AddFood() {
       setDefaultFoods(foodsArray);
     }
   };
+
   const fetchTodayFoods = async () => {
     const data = await getDayFoods(today);
 
@@ -52,6 +59,14 @@ export default function AddFood() {
       setTodayFoods([]);
     }
   };
+
+  const fetchUserFoods = async () => { 
+    const data = await getUserFoods()
+
+    if(data){
+      setUserFoods(data)
+    }
+  }
 
   const handleSaveFood = async (amount) => {
     if (!selectedFood) return;
@@ -74,18 +89,26 @@ export default function AddFood() {
 
     fetchTodayFoods(); // refresh list
   };
-  const filteredFoods = useMemo(() => {
-    if (!Array.isArray(defaultFoods)) return [];
 
-    return defaultFoods.filter((food) =>
+  const filteredFoods = useMemo(() => {
+    if (!Array.isArray(allFoods)) return [];
+
+    return allFoods.filter((food) =>
       food.name.toLowerCase().includes(search.toLowerCase()),
     );
   }, [defaultFoods, search]);
 
+  const handleSaveCustomFood =  (customFood) => {
+    alert("custom food", customFood)
+  }
+
   useEffect(() => {
     fetchDefaultFoods();
     fetchTodayFoods();
+    fetchUserFoods();
+    setAllFoods([...userFoods, ...defaultFoods])
   }, []);
+
 
   return (
     <SafeAreaView
@@ -110,10 +133,10 @@ export default function AddFood() {
       <Text style={styles.listTitle}>Default foods</Text>
 
       <View style={styles.searchBox}>
-        <Ionicons name="search" size={18} color="#888" />
+        <Ionicons name="search" size={18} color={muted}/>
         <TextInput
           placeholder="Search food..."
-          placeholderTextColor="#888"
+          placeholderTextColor={muted}
           style={styles.searchInput}
           value={search}
           onChangeText={setSearch}
@@ -135,6 +158,11 @@ export default function AddFood() {
           />
         )}
       />
+      <View style={styles.customContainer}>
+        <CustomFood 
+        onSave={handleSaveCustomFood}
+        />
+      </View>
       <AddFoodModal
         visible={modalVisible}
         food={selectedFood}
@@ -175,4 +203,9 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     flex: 1,
   },
+  customContainer: {
+    flex: 1, 
+    width: "90%",
+    maxHeight: 100,
+  }
 });

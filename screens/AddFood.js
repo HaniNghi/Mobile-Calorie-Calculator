@@ -52,7 +52,7 @@ export default function AddFood() {
         ...value,
       }));
 
-      setTodayFoods(foodsArray);
+      setTodayFoods(foodsArray.reverse());
     } else {
       setTodayFoods([]);
     }

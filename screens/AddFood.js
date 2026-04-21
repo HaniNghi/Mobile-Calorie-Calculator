@@ -167,6 +167,7 @@ export default function AddFood() {
           />
         )}
       />
+      <Text style={styles.listTitle}>Custom your food</Text>
       <View style={styles.customContainer}>
         <CustomFood onSave={handleSaveCustomFood} />
       </View>

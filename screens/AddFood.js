@@ -33,6 +33,7 @@ export default function AddFood() {
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState("");
 
+  // Get Default Foods form Firebase
   const fetchDefaultFoods = async () => {
     const data = await getDefaultFoods();
 
@@ -43,10 +44,12 @@ export default function AddFood() {
     }
   };
 
+  // Get Today Foods from Firebase
   const fetchTodayFoods = async () => {
     const data = await getDayFoods(today);
 
     if (data) {
+      // Convert object -> array
       const foodsArray = Object.entries(data).map(([id, value]) => ({
         id,
         ...value,
@@ -58,6 +61,7 @@ export default function AddFood() {
     }
   };
 
+  // Get User Foods form Firebase
   const fetchUserFoods = async () => {
     const data = await getUserFoods();
 
@@ -66,6 +70,7 @@ export default function AddFood() {
     }
   };
 
+  // Add Food to Today Food
   const handleSaveFood = async (amount) => {
     if (!selectedFood) return;
 
@@ -82,12 +87,14 @@ export default function AddFood() {
     await fetchTodayFoods(); // refresh list
   };
 
+  // Delete today food
   const handleDelete = async (id) => {
     await deleteFoodFromDay(today, id);
 
     fetchTodayFoods(); // refresh list
   };
 
+  // Get All Foods = User Food + Default Food
   const allFoods = useMemo(() => {
     return [...userFoods, ...defaultFoods];
   }, [userFoods, defaultFoods]);
@@ -100,6 +107,7 @@ export default function AddFood() {
     );
   }, [allFoods, search]);
 
+  // Save Custom Food to User Food
   const handleSaveCustomFood = async (customFood) => {
     try {
       await saveCustomFood(customFood);
@@ -123,7 +131,7 @@ export default function AddFood() {
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", backgroundColor: black }}
     >
-      <Header title={"Add food"} showBack={true} />
+      <Header title={"Add food"} showDone={true}/>
       <Text style={styles.listTitle}>Today foods</Text>
       <FlatList
         style={styles.foodList}

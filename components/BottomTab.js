@@ -4,8 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { black, brightBlue, grey } from "../styles";
 import Result from "../screens/Result";
 import Diary from "../screens/Diary";
-import Graph from "../screens/Graph"
-import AddFood from "../screens/AddFood";
+import Graph from "../screens/Graph";
+import Info from "../screens/Info";
+
 
 const Tab = createBottomTabNavigator();
 
@@ -39,6 +40,7 @@ export default function BottomTab() {
     >
       <Tab.Screen name="Diary" component={Diary} />
       <Tab.Screen name="Graph" component={Graph}/>
+      <Tab.Screen name="Info" component={Info}/>
     </Tab.Navigator>
   );
 }

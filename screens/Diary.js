@@ -1,14 +1,22 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, StyleSheet, View , FlatList, TouchableOpacity} from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 // Colors
 import { black, grey, white, brightBlue, lightBlue } from "../styles";
 import { useEffect, useState } from "react";
-import { getResult } from "../services/firebase";
+import { getResult , getDayFoods} from "../services/firebase";
 import CalorieCircle from "../components/CalorieCircle";
 import { useNavigation } from "@react-navigation/native";
-import AddFood from "./AddFood"
+import AddFood from "./AddFood";
 export default function Diary() {
-    const navigation= useNavigation()
+  
+  const navigation = useNavigation();
+  const today = new Date().toISOString().split("T")[0]; // "2026-04-18"
   const [result, setResult] = useState({
     tdee: null,
     goalCalories: null,
@@ -17,16 +25,35 @@ export default function Diary() {
   const [foods, setFoods] = useState([]);
   const [exercises, setExercises] = useState([]);
 
-  useEffect(() => {
-    const fetchResult = async () => {
-      const resultFromDatabase = await getResult();
+  const fetchResult = async () => {
+    const resultFromDatabase = await getResult();
 
-      if (resultFromDatabase) {
-        setResult(resultFromDatabase);
-      }
-    };
+    if (resultFromDatabase) {
+      setResult(resultFromDatabase);
+    }
+  };
+
+// Get Today Foods from Firebase and Set to foods
+  const fetchTodayFoods = async () => {
+    const data = await getDayFoods(today);
+
+    if (data) {
+      // Convert object -> array
+      const foodsArray = Object.entries(data).map(([id, value]) => ({
+        id,
+        ...value,
+      }));
+
+      setFoods(foodsArray);
+    } else {
+      setFoods([]);
+    }
+  };
+
+  useEffect(() => {
     fetchResult();
-  }, []);
+    fetchTodayFoods();
+  }, [foods]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,7 +77,10 @@ export default function Diary() {
             </View>
           )}
         />
-        <TouchableOpacity onPress={() =>navigation.navigate("AddFood")} style={styles.addBtn}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("AddFood")}
+          style={styles.addBtn}
+        >
           <Text style={styles.addText}>+ Add Food</Text>
         </TouchableOpacity>
       </View>
@@ -85,6 +115,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     marginTop: 20,
+    height: 350,
   },
   sectionTitle: {
     color: "white",
@@ -108,5 +139,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addText: { color: "white" },
-
 });

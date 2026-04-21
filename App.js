@@ -13,7 +13,6 @@ import Result from "./screens/Result";
 import Diary from "./screens/Diary";
 import { getResult } from "./services/firebase";
 import AddFood from "./screens/AddFood";
-import AddExercise from "./screens/AddExercise";
 
 const Stack = createNativeStackNavigator();
 
@@ -49,7 +48,6 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="MainTabs" component={BottomTab} />
             <Stack.Screen name="AddFood" component={AddFood} />
-            <Stack.Screen name="AddExercise" component={AddExercise} />
           </Stack.Navigator>
         ) : (
           <Stack.Navigator screenOptions={{ headerShown: false }}>

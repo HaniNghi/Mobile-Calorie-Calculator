@@ -54,28 +54,6 @@ export default function Diary() {
           <Text style={styles.addText}>+ Add Food</Text>
         </TouchableOpacity>
       </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Exercises</Text>
-
-        <FlatList
-          data={exercises}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.row}>
-              <View>
-                <Text style={styles.itemText}>{item.name}</Text>
-                <Text style={styles.subText}>{item.time}</Text>
-              </View>
-              <Text style={styles.kcal}>{item.kcal} kcal</Text>
-            </View>
-          )}
-        />
-
-        <TouchableOpacity onPress={() =>navigation.navigate("AddExercise")} style={styles.addBtn}>
-          <Text style={styles.addText}>+ Add Exercises</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 }

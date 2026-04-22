@@ -100,7 +100,7 @@ export default function Diary() {
           onPress={() => navigation.navigate("AddFood")}
           style={styles.addBtn}
         >
-          <Text style={styles.addText}>+ Add Food</Text>
+          <Text style={styles.addText}>Mange</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

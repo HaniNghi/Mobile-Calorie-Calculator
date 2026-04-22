@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { getResult, getDayFoods } from "../services/firebase";
 import CalorieCircle from "../components/CalorieCircle";
 import { useNavigation } from "@react-navigation/native";
-import AddFood from "./AddFood";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 
@@ -56,7 +55,6 @@ export default function Diary() {
     const total = foods.reduce((sum, item) => sum + Number(item.calories), 0);
 
     setConsumption(total);
-    console.log("consumption", consumption);
   };
 
   // Focus help refreshing after redirect to Diary
@@ -74,7 +72,7 @@ export default function Diary() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.target}>
-        <Text style={styles.text}>Your target</Text>
+        <Text style={styles.text}>Today target</Text>
         <Text style={styles.goal}>{result.goalCalories} kcal/day</Text>
       </View>
       <CalorieCircle

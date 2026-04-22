@@ -9,12 +9,14 @@ import {
 // Colors
 import { black, grey, white, brightBlue, lightBlue } from "../styles";
 import { useEffect, useState } from "react";
-import { getResult , getDayFoods} from "../services/firebase";
+import { getResult, getDayFoods } from "../services/firebase";
 import CalorieCircle from "../components/CalorieCircle";
 import { useNavigation } from "@react-navigation/native";
 import AddFood from "./AddFood";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
+
 export default function Diary() {
-  
   const navigation = useNavigation();
   const today = new Date().toISOString().split("T")[0]; // "2026-04-18"
   const [result, setResult] = useState({
@@ -33,7 +35,7 @@ export default function Diary() {
     }
   };
 
-// Get Today Foods from Firebase and Set to foods
+  // Get Today Foods from Firebase and Set to foods
   const fetchTodayFoods = async () => {
     const data = await getDayFoods(today);
 
@@ -49,11 +51,13 @@ export default function Diary() {
       setFoods([]);
     }
   };
-
-  useEffect(() => {
-    fetchResult();
-    fetchTodayFoods();
-  }, []);
+// Focus help refreshing after redirect to Diary
+  useFocusEffect(
+    useCallback(() => {
+      fetchResult();
+      fetchTodayFoods();
+    }, []),
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -73,7 +77,7 @@ export default function Diary() {
           renderItem={({ item }) => (
             <View style={styles.row}>
               <Text style={styles.itemText}>{item.name}</Text>
-              <Text style={styles.kcal}>{item.kcal} kcal</Text>
+              <Text style={styles.kcal}>{item.calories} kcal</Text>
             </View>
           )}
         />

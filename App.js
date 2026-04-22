@@ -20,22 +20,24 @@ export default function App() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [hasResult, setHasResult] = useState();
+const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      if (user) {
-        const resultFromDatabase = await getResult();
-        if (resultFromDatabase) {
-          setHasResult(true);
-        }
-      } else {
-        setHasResult(false);
-      }
-      setLoading(false);
-    });
-    return unsubscribe;
-  }, []);
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    setUser(user);
+
+    if (user) {
+      const resultFromDatabase = await getResult();
+      setHasResult(!!resultFromDatabase);
+    } else {
+      setHasResult(false);
+    }
+
+    setLoading(false);
+  });
+
+  return unsubscribe;
+}, [refresh]);
 
   if (loading) return null;
 
@@ -54,6 +56,8 @@ export default function App() {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Calculator" component={CalculatorScreen} />
             <Stack.Screen name="Result" component={Result} />
+            <Stack.Screen name="MainTabs" component={BottomTab} />
+            <Stack.Screen name="AddFood" component={AddFood} />
           </Stack.Navigator>
         )
       ) : (

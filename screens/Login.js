@@ -34,7 +34,6 @@ export default function Login() {
   const handleSubmit = async () => {
     try {
       await login(email, password);
-      Alert.alert("Successfully logged in");
     } catch (error) {
       Alert.alert("Fail to log in", error.message);
     }

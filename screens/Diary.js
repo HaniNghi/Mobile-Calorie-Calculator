@@ -53,7 +53,7 @@ export default function Diary() {
   useEffect(() => {
     fetchResult();
     fetchTodayFoods();
-  }, [foods]);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

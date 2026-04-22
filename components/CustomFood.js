@@ -42,6 +42,11 @@ export default function CustomFood({ onSave }) {
     }
 
     onSave(customFood);
+    setCustomFood({
+      name: "",
+      kcal: 0,
+      unit: "",
+    });
   };
 
   return (
@@ -105,7 +110,6 @@ export default function CustomFood({ onSave }) {
 }
 
 const styles = StyleSheet.create({
-
   card: {
     backgroundColor: black,
     borderRadius: 16,
@@ -145,14 +149,13 @@ const styles = StyleSheet.create({
     color: white,
     width: 80,
     marginRight: 5,
-
   },
 
   dropdown: {
     height: 45,
     backgroundColor: grey,
     borderRadius: 12,
-    paddingHorizontal:10,
+    paddingHorizontal: 10,
     width: 70,
   },
 

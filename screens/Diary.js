@@ -111,11 +111,12 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   section: {
+    display: "flex",
     backgroundColor: "#111",
     borderRadius: 12,
     padding: 12,
     marginTop: 20,
-    height: 350,
+    maxHeight: 350,
   },
   sectionTitle: {
     color: "white",

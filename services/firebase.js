@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { database } from "../firebaseConfig";
@@ -37,6 +38,16 @@ export async function login(email, password) {
     throw error;
   }
 }
+
+export async function logout(){
+  
+    signOut(auth).then(() => {
+      alert("You logged out.")
+    }).catch((error) => {
+    console.log("Error:", error.message);
+    })
+  
+} 
 
 export async function saveInfo(info) {
   set(ref(database, "info/" + auth.currentUser.uid), {

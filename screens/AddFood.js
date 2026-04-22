@@ -73,13 +73,15 @@ export default function AddFood() {
   // Add Food to Today Food
   const handleSaveFood = async (amount) => {
     if (!selectedFood) return;
+    const calories = Math.round(selectedFood.kcal * (Number(amount) / 100));
 
-    const foodWithAmount = {
+    const foodWithAmountandCalories = {
       ...selectedFood,
       amount,
+      calories,
     };
 
-    await addFoodToDay(today, foodWithAmount);
+    await addFoodToDay(today, foodWithAmountandCalories);
 
     setModalVisible(false);
     setSelectedFood(null);
@@ -131,7 +133,7 @@ export default function AddFood() {
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", backgroundColor: black }}
     >
-      <Header title={"Add food"} showDone={true}/>
+      <Header title={"Add food"} showDone={true} />
       <Text style={styles.listTitle}>Today foods</Text>
       <FlatList
         style={styles.foodList}

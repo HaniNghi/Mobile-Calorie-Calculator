@@ -12,6 +12,7 @@ import { black, brightBlue, faded, grey, lightBlue, muted, white } from "../styl
 export default function AddFoodModal({ visible, food, onClose, onSave }) {
   const [amount, setAmount] = useState("100");
 
+
   // Reset amount when new food is selected
   useEffect(() => {
     if (food) {

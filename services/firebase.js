@@ -142,6 +142,7 @@ export async function addFoodToDay(date, food) {
       kcal: food.kcal,
       unit: food.unit,
       amount: food.amount,
+      calories: food.calories
     });
   } catch (error) {
     console.log("Error adding food:", error.message);

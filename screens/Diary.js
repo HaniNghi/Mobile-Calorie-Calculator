@@ -25,7 +25,6 @@ export default function Diary() {
   });
   const [consumption, setConsumption] = useState(0);
   const [foods, setFoods] = useState([]);
-  const [exercises, setExercises] = useState([]);
 
   const fetchResult = async () => {
     const resultFromDatabase = await getResult();
@@ -51,7 +50,16 @@ export default function Diary() {
       setFoods([]);
     }
   };
-// Focus help refreshing after redirect to Diary
+
+  // consumption calculation
+  const handleConsumption = () => {
+    const total = foods.reduce((sum, item) => sum + Number(item.calories), 0);
+
+    setConsumption(total);
+    console.log("consumption", consumption);
+  };
+
+  // Focus help refreshing after redirect to Diary
   useFocusEffect(
     useCallback(() => {
       fetchResult();
@@ -59,13 +67,20 @@ export default function Diary() {
     }, []),
   );
 
+  useEffect(() => {
+    handleConsumption();
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.target}>
         <Text style={styles.text}>Your target</Text>
         <Text style={styles.goal}>{result.goalCalories} kcal/day</Text>
       </View>
-      <CalorieCircle value={consumption} max={result.goalCalories} />
+      <CalorieCircle
+        value={Number(consumption)}
+        max={Number(result.goalCalories)}
+      />
       <Text style={styles.text}>Your calories today</Text>
 
       <View style={styles.section}>

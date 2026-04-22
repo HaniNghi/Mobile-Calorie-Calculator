@@ -20,9 +20,10 @@ export const Colors = {
   green: "#22C55E",
   yellow: "#FACC15",
   red: "#EF4444",
+  faded: "rgba(0,0,0,0.5)",
 };
 
-export const { darkLight, black, grey, white, muted, primaryBlue, brightBlue, lightBlue, blueGradient, green, yellow, red} =
+export const {faded, darkLight, black, grey, white, muted, primaryBlue, brightBlue, lightBlue, blueGradient, green, yellow, red} =
   Colors;
 
 export const styles = StyleSheet.create({

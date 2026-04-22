@@ -137,7 +137,7 @@ export default function Result({ route }) {
             await saveResult(result);
             console.log("Result", result);
             Alert.alert("Successfully save your result");
-            navigation.navigate("Diary");
+            navigation.navigate("MainTabs");
           } catch (error) {
             Alert.alert("Failed to save your result", error.message);
           }

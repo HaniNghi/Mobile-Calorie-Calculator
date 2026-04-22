@@ -99,7 +99,6 @@ export default function Login() {
               onPress={async () => {
                 try {
                   await createUser(form);
-                  navigation.navigate("Login");
                   Alert.alert("Successfully sign up");
                 } catch (error) {
                   Alert.alert("Failed to create user", error.message || "An error occurred");

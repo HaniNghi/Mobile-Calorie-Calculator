@@ -1,9 +1,19 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 // Colors
-import { black, grey, white, brightBlue, muted, lightBlue, blueGradient } from "../styles";
+import {
+  black,
+  grey,
+  white,
+  brightBlue,
+  muted,
+  lightBlue,
+  blueGradient,
+} from "../styles";
 import { getAllDayTotalCalories } from "../services/firebase";
 import { useEffect, useState } from "react";
 
@@ -43,7 +53,6 @@ export default function Graph() {
   //fecth Date with Calories from Firebase and make it in correct day of the week
   const fetchBarData = async () => {
     const result = await getAllDayTotalCalories();
-    console.log("RESULT:", result);
 
     const week = getWeekDates();
 
@@ -56,15 +65,16 @@ export default function Graph() {
         return {
           value: found ? found.calories : 0,
           label: day.label,
-          frontColor: isToday ? blueGradient : brightBlue, 
+          frontColor: isToday ? blueGradient : brightBlue,
         };
       }),
     );
   };
 
-  useEffect(() => {
-    fetchBarData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchBarData();
+    }, [barData]));
 
   return (
     <SafeAreaView style={styles.container}>

@@ -3,24 +3,23 @@ import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 
 // Colors
-import { black, grey, white, brightBlue, muted } from "../styles";
+import { black, grey, white, brightBlue, muted, lightBlue, blueGradient } from "../styles";
 import { getAllDayTotalCalories } from "../services/firebase";
 import { useEffect, useState } from "react";
 
 export default function Graph() {
   const [barData, setBarData] = useState([]);
+  const today = new Date();
 
   const getWeekDates = (offset) => {
-    const now = new Date();
-
-    const day = now.getDay(); // 0 = Sun, 1 = Mon, 2 = Tue, ...
+    const day = today.getDay(); // 0 = Sun, 1 = Mon, 2 = Tue, ...
 
     // Find the different between today and monday of the week
     const diff = day === 0 ? -6 : 1 - day;
 
     // Find full date of Monday
-    const monday = new Date(now);
-    monday.setDate(now.getDate() + diff);
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + diff);
 
     const week = [];
 
@@ -44,7 +43,7 @@ export default function Graph() {
   //fecth Date with Calories from Firebase and make it in correct day of the week
   const fetchBarData = async () => {
     const result = await getAllDayTotalCalories();
-      console.log("RESULT:", result);
+    console.log("RESULT:", result);
 
     const week = getWeekDates();
 
@@ -52,10 +51,12 @@ export default function Graph() {
       week.map((day) => {
         const found = result.find((item) => item.date === day.fullDate);
 
+        const isToday = day.fullDate === today.toISOString().split("T")[0];
+
         return {
           value: found ? found.calories : 0,
           label: day.label,
-          frontColor: brightBlue,
+          frontColor: isToday ? blueGradient : brightBlue, 
         };
       }),
     );

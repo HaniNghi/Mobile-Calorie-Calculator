@@ -191,8 +191,9 @@ const styles = StyleSheet.create({
     maxHeight: 300,
   },
   sectionTitle: {
-    color: "white",
+    color: lightBlue,
     fontSize: 16,
+    fontWeight: "700",
     marginBottom: 10,
   },
   row: {

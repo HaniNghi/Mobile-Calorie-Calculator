@@ -72,7 +72,7 @@ export async function getInfo() {
       console.log("getInfo ", snapshot.val());
       return snapshot.val();
     } else {
-      console.log("No data found");
+      console.log("No info data found");
       return null;
     }
   } catch (error) {
@@ -98,7 +98,7 @@ export async function getResult() {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      console.log("No data found");
+      console.log("No result data found");
       return null;
     }
   } catch (error) {
@@ -124,7 +124,7 @@ export async function getDefaultFoods() {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      console.log("No data found");
+      console.log("No default foods data found");
       return null;
     }
   } catch (error) {
@@ -156,7 +156,7 @@ export async function getDayFoods(date) {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      console.log("No data found");
+      console.log("No day foods data found");
       return null;
     }
   } catch (error) {

@@ -39,15 +39,15 @@ export async function login(email, password) {
   }
 }
 
-export async function logout(){
-  
-    signOut(auth).then(() => {
-      alert("You logged out.")
-    }).catch((error) => {
-    console.log("Error:", error.message);
+export async function logout() {
+  signOut(auth)
+    .then(() => {
+      alert("You logged out.");
     })
-  
-} 
+    .catch((error) => {
+      console.log("Error:", error.message);
+    });
+}
 
 export async function saveInfo(info) {
   set(ref(database, "info/" + auth.currentUser.uid), {
@@ -72,7 +72,7 @@ export async function getInfo() {
       console.log("getInfo ", snapshot.val());
       return snapshot.val();
     } else {
-      console.log("No data found");
+      console.log("No info data found");
       return null;
     }
   } catch (error) {
@@ -90,16 +90,15 @@ export async function saveResult(result) {
 
 export async function getResult() {
   try {
-    const user = auth.currentUser
+    const user = auth.currentUser;
     if (!user) return null;
 
     const snapshot = await get(ref(database, `result/${user.uid}`));
 
     if (snapshot.exists()) {
-      console.log("getResult ", snapshot.val());
       return snapshot.val();
     } else {
-      console.log("No data found");
+      console.log("No result data found");
       return null;
     }
   } catch (error) {
@@ -125,7 +124,7 @@ export async function getDefaultFoods() {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      console.log("No data found");
+      console.log("No default foods data found");
       return null;
     }
   } catch (error) {
@@ -142,7 +141,7 @@ export async function addFoodToDay(date, food) {
       kcal: food.kcal,
       unit: food.unit,
       amount: food.amount,
-      calories: food.calories
+      calories: food.calories,
     });
   } catch (error) {
     console.log("Error adding food:", error.message);
@@ -157,7 +156,7 @@ export async function getDayFoods(date) {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      console.log("No data found");
+      console.log("No day foods data found");
       return null;
     }
   } catch (error) {
@@ -166,14 +165,16 @@ export async function getDayFoods(date) {
 }
 export async function deleteFoodFromDay(date, id) {
   try {
-    await remove(ref(database, `dayfoods/${auth.currentUser.uid}/${date}/${id}`));
+    await remove(
+      ref(database, `dayfoods/${auth.currentUser.uid}/${date}/${id}`),
+    );
   } catch (error) {
     console.log("Error deleting:", error.message);
   }
 }
 
 export async function saveCustomFood(food) {
-    const user = auth.currentUser
+  const user = auth.currentUser;
 
   if (!user) throw new Error("User not logged in");
 
@@ -192,7 +193,7 @@ export async function saveCustomFood(food) {
 }
 
 export async function getUserFoods() {
-    const user = auth.currentUser
+  const user = auth.currentUser;
 
   if (!user) return [];
   const snapshot = await get(ref(database, `customFoods/${user.uid}`));
@@ -207,4 +208,30 @@ export async function getUserFoods() {
   }
 
   return [];
+}
+
+// get total calories by date
+export async function getAllDayTotalCalories() {
+  const user = auth.currentUser;
+
+  if (!user) return [];
+  const snapshot = await get(ref(database, `dayfoods/${user.uid}`));
+
+  if (!snapshot.exists()) return [];
+
+  const data = snapshot.val();
+
+  return Object.entries(data).map(([date, foodsObj]) => {
+    const foods = Object.values(foodsObj || {});
+
+    const totalCalories = foods.reduce(
+      (sum, item) => sum + Number(item.calories),
+      0,
+    );
+
+    return {
+      date,
+      calories: totalCalories,
+    };
+  });
 }

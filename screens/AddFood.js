@@ -7,7 +7,7 @@ import {
   TextInput,
   FlatList,
 } from "react-native";
-import { black, brightBlue, faded, grey, muted, white } from "../styles";
+import { black, brightBlue, darkGrey, faded, grey, lightBlue, muted, white } from "../styles";
 import Header from "../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect, useMemo } from "react";
@@ -24,8 +24,9 @@ import AddFoodModal from "../components/AddFoodModal";
 import { Ionicons } from "@expo/vector-icons";
 import CustomFood from "../components/CustomFood";
 
-export default function AddFood() {
-  const today = new Date().toISOString().split("T")[0]; // "2026-04-18"
+export default function AddFood({ route }) {
+  const selectedDate = route?.params?.selectedDate;
+  const today = selectedDate ?? new Date().toISOString().split("T")[0]; // "2026-04-18"
   const [defaultFoods, setDefaultFoods] = useState([]);
   const [todayFoods, setTodayFoods] = useState([]);
   const [userFoods, setUserFoods] = useState([]);
@@ -127,102 +128,152 @@ export default function AddFood() {
     fetchDefaultFoods();
     fetchTodayFoods();
     fetchUserFoods();
-  }, []);
+  }, [today]);
 
   return (
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", backgroundColor: black }}
     >
-      <Header title={"Add food"} showDone={true} />
-      <Text style={styles.listTitle}>Today foods</Text>
-      <FlatList
-        style={styles.foodList}
-        data={todayFoods}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <FoodCard
-            name={item.name}
-            kcal={item.kcal}
-            unit={item.unit}
-            amount={item.amount}
-            onDelete={() => handleDelete(item.id)}
+      <View>
+        <Header title={"Add food"} showDone={true} />
+        <View style={styles.dateCard}>
+          <Text style={styles.dateText}>{today}</Text>
+          <Text style={styles.subDateText}>Your food tracking</Text>
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Today Foods</Text>
+          <FlatList
+            style={styles.foodList}
+            data={todayFoods}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <FoodCard
+                name={item.name}
+                kcal={item.kcal}
+                unit={item.unit}
+                amount={item.amount}
+                onDelete={() => handleDelete(item.id)}
+              />
+            )}
           />
-        )}
-      />
-      <Text style={styles.listTitle}>Default foods</Text>
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Default foods</Text>
 
-      <View style={styles.searchBox}>
-        <Ionicons name="search" size={18} color={muted} />
-        <TextInput
-          placeholder="Search food..."
-          placeholderTextColor={muted}
-          style={styles.searchInput}
-          value={search}
-          onChangeText={setSearch}
-        />
-      </View>
-      <FlatList
-        style={styles.foodList}
-        data={filteredFoods}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <FoodCard
-            name={item.name}
-            kcal={item.kcal}
-            unit={item.unit}
-            onAdd={() => {
-              setSelectedFood(item);
-              setModalVisible(true);
-            }}
+          <View style={styles.searchBox}>
+            <Ionicons name="search" size={18} color={muted} />
+            <TextInput
+              placeholder="Search food..."
+              placeholderTextColor={muted}
+              style={styles.searchInput}
+              value={search}
+              onChangeText={setSearch}
+            />
+          </View>
+          <FlatList
+            style={styles.foodList}
+            data={filteredFoods}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <FoodCard
+                name={item.name}
+                kcal={item.kcal}
+                unit={item.unit}
+                onAdd={() => {
+                  setSelectedFood(item);
+                  setModalVisible(true);
+                }}
+              />
+            )}
           />
-        )}
-      />
-      <Text style={styles.listTitle}>Custom your food</Text>
-      <View style={styles.customContainer}>
-        <CustomFood onSave={handleSaveCustomFood} />
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Custom your food</Text>
+          <View style={styles.customContainer}>
+            <CustomFood onSave={handleSaveCustomFood} />
+          </View>
+          <AddFoodModal
+            visible={modalVisible}
+            food={selectedFood}
+            onClose={() => setModalVisible(false)}
+            onSave={handleSaveFood}
+          />
+        </View>
       </View>
-      <AddFoodModal
-        visible={modalVisible}
-        food={selectedFood}
-        onClose={() => setModalVisible(false)}
-        onSave={handleSaveFood}
-      />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  foodList: {
-    backgroundColor: grey,
-    width: "90%",
-    borderRadius: 6,
-    maxHeight: 200,
-  },
-  listTitle: {
-    color: brightBlue,
-    fontSize: 18,
-    fontWeight: 600,
-    margin: 10,
-  },
-  searchBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#111",
-    borderRadius: 12,
+  container: {
+    flex: 1,
+    backgroundColor: black,
     paddingHorizontal: 12,
-    paddingVertical: 10,
-    marginHorizontal: 16,
+  },
+
+  dateCard: {
+    backgroundColor: "#111",
+    padding: 14,
+    borderRadius: 16,
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: "#1F1F1F",
+  },
+
+  dateText: {
+    color: white,
+    fontSize: 16,
+    fontWeight: "700",
+  },
+
+  subDateText: {
+    color: muted,
+    fontSize: 12,
+    marginTop: 4,
+  },
+
+  card: {
+    backgroundColor: darkGrey,
+    borderRadius: 16,
+    padding: 12,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#1F1F1F",
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 4,
+    maxHeight: 220,
+  },
+
+  sectionTitle: {
+    color: lightBlue,
+    fontSize: 16,
+    fontWeight: "700",
     marginBottom: 10,
   },
 
+  foodList: {
+    width: "100%",
+    maxHeight: 200,
+  },
+
+  searchBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#0F0F0F",
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#1F1F1F",
+  },
+
   searchInput: {
-    color: "white",
+    color: white,
     marginLeft: 8,
     flex: 1,
-  },
-  customContainer: {
-    flex: 1,
-    width: "90%",
-    maxHeight: 100,
+    fontSize: 14,
   },
 });

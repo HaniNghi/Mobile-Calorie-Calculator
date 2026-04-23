@@ -9,7 +9,9 @@ import {
 import { useState } from "react";
 import {
   black,
+  blueGradient,
   brightBlue,
+  darkGrey,
   faded,
   grey,
   lightBlue,
@@ -111,11 +113,11 @@ export default function CustomFood({ onSave }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: black,
+    backgroundColor: darkGrey,
     borderRadius: 16,
     padding: 8,
-    borderWidth: 1,
-    borderColor: "#222",
+    borderWidth: 0.4,
+    borderColor: muted,
     flexDirection: "row",
   },
 
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
   },
 
   inputControlName: {
-    height: 45,
+    height: 40,
     backgroundColor: grey,
     paddingHorizontal: 14,
     borderRadius: 12,
@@ -141,7 +143,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   inputControlKcal: {
-    height: 45,
+    height: 40,
     backgroundColor: grey,
     paddingHorizontal: 14,
     borderRadius: 12,
@@ -152,7 +154,7 @@ const styles = StyleSheet.create({
   },
 
   dropdown: {
-    height: 45,
+    height: 40,
     backgroundColor: grey,
     borderRadius: 12,
     paddingHorizontal: 10,
@@ -182,21 +184,20 @@ const styles = StyleSheet.create({
   },
 
   saveBtn: {
-    backgroundColor: brightBlue,
-    marginTop: 10,
-    paddingVertical: 10,
-    borderRadius: 14,
+    marginTop: 12,
+    backgroundColor: blueGradient,
+    padding: 12,
+    borderRadius: 12,
     alignItems: "center",
-    shadowColor: brightBlue,
-    shadowOffset: { width: 0, height: 4 },
+    shadowColor: blueGradient,
     shadowOpacity: 0.3,
-    shadowRadius: 6,
+    shadowRadius: 8,
     elevation: 5,
   },
 
   saveText: {
-    color: white,
-    fontSize: 16,
+    color: "white",
     fontWeight: "700",
+    letterSpacing: 0.5,
   },
 });

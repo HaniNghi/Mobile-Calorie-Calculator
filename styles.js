@@ -16,14 +16,15 @@ export const Colors = {
   primaryBlue: "#1E6BFF",
   brightBlue: "#2D8CFF",
   lightBlue: "#368ae3",
-  blueGradient: "#00C6FF",
+  blueGradient: "#1D4ED8",
   green: "#22C55E",
   yellow: "#FACC15",
   red: "#EF4444",
   faded: "rgba(0,0,0,0.5)",
+  darkGrey: "#111",
 };
 
-export const {faded, darkLight, black, grey, white, muted, primaryBlue, brightBlue, lightBlue, blueGradient, green, yellow, red} =
+export const {darkGrey,faded, darkLight, black, grey, white, muted, primaryBlue, brightBlue, lightBlue, blueGradient, green, yellow, red} =
   Colors;
 
 export const styles = StyleSheet.create({

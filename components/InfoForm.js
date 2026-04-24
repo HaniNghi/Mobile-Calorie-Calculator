@@ -11,7 +11,7 @@ import { Dropdown } from "react-native-element-dropdown";
 // Colors
 import { black, grey, white, brightBlue } from "../styles";
 
-export default function InfoForm({ info, setInfo, handleSave, buttonText }) {
+export default function InfoForm({ info, setInfo, editable }) {
   const genders = ["Male", "Female"];
   const goals = [
     { label: "Lose weight", value: "lose" },
@@ -36,6 +36,7 @@ export default function InfoForm({ info, setInfo, handleSave, buttonText }) {
           placeholder="20"
           placeholderTextColor={white}
           value={info.age}
+          editable={editable}
           onChangeText={(age) => setInfo({ ...info, age })}
         />
       </View>
@@ -46,6 +47,7 @@ export default function InfoForm({ info, setInfo, handleSave, buttonText }) {
           {genders.map((item) => (
             <TouchableOpacity
               key={item}
+              disabled={!editable}
               style={[
                 styles.optionBtn,
                 info.gender === item && styles.optionBtnActive,
@@ -73,6 +75,7 @@ export default function InfoForm({ info, setInfo, handleSave, buttonText }) {
           placeholder="175"
           placeholderTextColor={white}
           value={info.height}
+          editable={editable}
           onChangeText={(height) => setInfo({ ...info, height })}
         />
       </View>
@@ -85,6 +88,7 @@ export default function InfoForm({ info, setInfo, handleSave, buttonText }) {
           placeholder="70"
           placeholderTextColor={white}
           value={info.weight}
+          editable={editable}
           onChangeText={(weight) => setInfo({ ...info, weight })}
         />
       </View>
@@ -103,6 +107,7 @@ export default function InfoForm({ info, setInfo, handleSave, buttonText }) {
           valueField="value"
           placeholder="Select activity level"
           value={info.activityLevel}
+          disable={!editable}
           onChange={(item) => {
             setInfo({ ...info, activityLevel: item.value });
           }}
@@ -115,6 +120,7 @@ export default function InfoForm({ info, setInfo, handleSave, buttonText }) {
           {goals.map((item) => (
             <TouchableOpacity
               key={item.label}
+              disabled={!editable}
               style={[
                 styles.optionBtn,
                 info.goal === item.value && styles.optionBtnActive,
@@ -132,14 +138,6 @@ export default function InfoForm({ info, setInfo, handleSave, buttonText }) {
             </TouchableOpacity>
           ))}
         </View>
-      </View>
-
-      <View style={styles.formAction}>
-        <TouchableOpacity onPress={handleSave}>
-          <View style={styles.btn}>
-            <Text style={styles.btnText}>{buttonText}</Text>
-          </View>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -171,30 +169,6 @@ const styles = StyleSheet.create({
   form: {
     marginBottom: 24,
     flex: 1,
-  },
-  formAction: {
-    marginVertical: 24,
-    flex: 1,
-    alignItems: "center",
-  },
-  btn: {
-    width: 200,
-    backgroundColor: brightBlue,
-    borderRadius: 12,
-    height: 52,
-    justifyContent: "center",
-    alignItems: "center",
-    // marginHorizontal: 20,
-    shadowColor: brightBlue,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 5,
-  },
-  btnText: {
-    color: white,
-    fontSize: 17,
-    fontWeight: "600",
   },
   optionRow: {
     flexDirection: "row",

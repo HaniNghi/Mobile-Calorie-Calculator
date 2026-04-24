@@ -1,47 +1,94 @@
-# Calorie-Calculator-App
-🔧 Technologies
+# 🥗 Calorie Calculator App
 
-    React Native
+A React Native mobile application that helps users calculate daily calorie needs, track food intake, and manage nutrition goals (lose, maintain, or gain weight).
 
-    Expo
+---
 
-    JavaScript
+## ⚙️ Technologies
 
-    React Navigation
+- React Native  
+- Expo  
+- React Navigation  
+- React Native Bottom Tabs  
+- React Native Element Dropdown  
+- React Native Gifted Charts  
+- React Native SVG  
+- Expo Vector Icons (Ionicons)  
+- JavaScript  
+- Firebase Authentication  
+- Firebase Realtime Database  
 
-    Firebase
+---
 
-    Formik
+## ⭐ Features
 
-⭐ Main Features
+### 🔐 Authentication
+- Login screen
+- Sign up screen
+- Firebase authentication integration
+- Persistent login session:
+  - Detects if user is already logged in
+  - Automatically skips login screen
+  - Redirects directly to Diary screen
+  - 
+### 🧮 Calorie Management
+- Calculate daily calorie needs based on:
+  - Age
+  - Gender
+  - Height
+  - Weight
+  - Activity level
+- Goal selection:
+  - Lose weight
+  - Maintain weight
+  - Gain weight
+    
+### 📅 Diary Navigation
+- Navigate between days (previous / next day)
+- View daily calorie intake history
+- Automatically updates food list and calorie tracking based on selected date
+  
+### 🍎 Food Tracking
+- Default food list
+- Add daily food intake
+- Create custom foods and save them for future use
+- Track daily calorie consumption
 
-    User calorie calculation based on age, gender, height, weight, and activity level
+### 📊 Analytics
+- Daily calorie overview
+- Weekly calorie tracking using bar charts
+- Navigate between previous weeks
 
-    BMR and daily calorie needs calculation
+### 👤 User Features
+- User profile screen
+- Logout functionality
+- Personalized data stored in Firebase
 
-    Goal selection (lose, maintain, or gain weight)
+### 🎨 UI/UX
+- Clean and modern interface
+- Smooth navigation
+- Mobile friendly design
 
-    Macronutrient breakdown (protein, carbs, fats)
+---
 
-    User profile management
+## 📱 Screens Overview
 
-    Data saved locally for future use
+- **Home Screen** – App introduction and overview  
+- **Calculator Screen** – Input user data for calorie calculation  
+- **Result Screen** – Displays daily calorie needs
+- **Diary Screen** – Shows daily target, intake calories, and food list  
+- **Graph Screen** – Weekly intake calories visualization  
+- **Profile Screen** – User information and logout option  
 
-    Clean and user-friendly UI
+---
 
-🎨 Some Mockups
+## 🎯 Project Goal
 
-    The app includes the following screens:
+**Grade Target: 5 / Excellent**
 
-    Home Screen: app overview and navigation
-
-    Calculator Screen: user input for calorie calculation
-
-    Result Screen: daily calorie needs and macro breakdown
-
-    Profile Screen: view and edit personal information
-
-🎯 Grade Aspiration
-
-    Grade 5 / Excellent
-    The project aims to demonstrate strong understanding of mobile development concepts, clean UI design, correct calorie calculation logic, and good user experience.
+This project demonstrates:
+- Strong understanding of React Native development
+- Firebase integration (Auth + Database)
+- Correct calorie calculation logic
+- Clean and modern UI design
+- Real world mobile app structure and UX principles

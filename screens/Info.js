@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Button, TouchableOpacity, StyleSheet , Alert} from "react-native";
 // Colors
-import { black, grey, white, brightBlue } from "../styles";
+import { black, grey, white, brightBlue, blueGradient } from "../styles";
 import { logout } from "../services/firebase";
 import InfoForm from "../components/InfoForm";
 import { useEffect, useState } from "react";
@@ -31,14 +31,14 @@ export default function Info() {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     fetchInfo();
   }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
-      <Text style={{ color: white }}>Your Info</Text>
+      <Text style={styles.title}>Your Info</Text>
       <View style={styles.container}>
         <InfoForm
           info={info}
@@ -69,6 +69,19 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 5,
   },
+
+  title: {
+      color: white,
+      textAlign: "center",
+      marginBottom: 5,
+      fontSize: 30,
+      fontWeight: 600,
+      marginTop: 10,
+      shadowColor: blueGradient,
+      shadowOpacity: 1,
+      shadowRadius: 14,
+      elevation: 6,
+    },
 
   container: {
     backgroundColor: black,

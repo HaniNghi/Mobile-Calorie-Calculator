@@ -31,16 +31,7 @@ export default function Info() {
       console.log(error);
     }
   };
-
-  const handleSave = async () => {
-      try {
-        await saveInfo(info);
-        Alert.alert("Successfully save your information");
-      } catch (error) {
-        Alert.alert("Failed to save your information", error.message);
-      }
-    };
-
+  
   useEffect(() => {
     fetchInfo();
   }, []);
@@ -66,9 +57,11 @@ export default function Info() {
 const styles = StyleSheet.create({
   saveBtn: {
     backgroundColor: brightBlue,
+    width: 200,
     marginTop: 10,
     paddingVertical: 10,
     borderRadius: 14,
+    alignSelf: "center",
     alignItems: "center",
     shadowColor: brightBlue,
     shadowOffset: { width: 0, height: 4 },

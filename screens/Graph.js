@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import { Dimensions } from "react-native";
 
 // Colors
 import {
@@ -13,15 +14,23 @@ import {
   muted,
   lightBlue,
   blueGradient,
+  primaryBlue,
 } from "../styles";
 import { getAllDayTotalCalories } from "../services/firebase";
 import { useEffect, useState } from "react";
+const screenHeight = Dimensions.get("window").height;
 
 export default function Graph() {
   const [barData, setBarData] = useState([]);
-  const today = new Date();
+  const [weekOffset, setWeekOffset] = useState(0); // 0=this week, -1=last week,, -2=2 weeks ago...
+  const [locatedWeek, setLocatedWeek] = useState([]);
 
   const getWeekDates = (offset) => {
+    const today = new Date();
+
+    // move to correct week
+    today.setDate(today.getDate() + offset * 7);
+
     const day = today.getDay(); // 0 = Sun, 1 = Mon, 2 = Tue, ...
 
     // Find the different between today and monday of the week
@@ -53,45 +62,77 @@ export default function Graph() {
   //fecth Date with Calories from Firebase and make it in correct day of the week
   const fetchBarData = async () => {
     const result = await getAllDayTotalCalories();
+    const week = getWeekDates(weekOffset);
 
-    const week = getWeekDates();
+    setLocatedWeek(week);
+
+    const todayStr = new Date().toISOString().split("T")[0];
 
     setBarData(
       week.map((day) => {
         const found = result.find((item) => item.date === day.fullDate);
-
-        const isToday = day.fullDate === today.toISOString().split("T")[0];
-
         return {
           value: found ? found.calories : 0,
           label: day.label,
-          frontColor: isToday ? blueGradient : brightBlue,
+          frontColor: day.fullDate === todayStr ? primaryBlue : brightBlue,
         };
       }),
     );
   };
 
+  //Format date display
+  const formatDate = (dateStr) => {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+  };
+
   useFocusEffect(
     useCallback(() => {
       fetchBarData();
-    }, [barData]));
+    }, [weekOffset]),
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Calories Overview</Text>
+      <View style={styles.navRow}>
+        <TouchableOpacity onPress={() => setWeekOffset(weekOffset - 1)}>
+          <Text style={styles.navText}>← Last Week</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          disabled={weekOffset === 0}
+          onPress={() => setWeekOffset(weekOffset + 1)}
+        >
+          <Text
+            style={[styles.navText, weekOffset === 0 && styles.navTextDisabled]}
+          >
+            Next →
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.week}>
+        {locatedWeek.length > 0 &&
+          `Week ${formatDate(locatedWeek[0].fullDate)} • ${formatDate(locatedWeek[6].fullDate)}`}
+      </Text>
       <View style={styles.chartContainer}>
         <BarChart
+          height={screenHeight * 0.4}
+          minHeight={5}
+          showValuesAsTopLabel
+          topLabelTextStyle={{ color: "white", fontSize: 8 }}
           data={barData}
-          barWidth={20}
-          spacing={16}
+          barWidth={24}
+          spacing={18}
           roundedTop
           hideRules
           xAxisThickness={0}
           yAxisThickness={0}
           yAxisTextStyle={{ color: muted }}
           xAxisLabelTextStyle={{ color: muted }}
-          noOfSections={4}
-          isAnimated
+          noOfSections={6}
         />
       </View>
     </SafeAreaView>
@@ -106,10 +147,15 @@ const styles = StyleSheet.create({
 
   title: {
     color: white,
-    fontSize: 20,
-    fontWeight: "700",
     textAlign: "center",
     marginBottom: 10,
+    fontSize: 30,
+    fontWeight: 600,
+    marginTop: 10,
+    shadowColor: blueGradient,
+    shadowOpacity: 1,
+    shadowRadius: 14,
+    elevation: 6,
   },
 
   navRow: {
@@ -124,9 +170,25 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 
+  navTextDisabled: {
+    color: grey,
+  },
+
+  week: {
+    color: white,
+    textAlign: "center",
+    marginBottom: 10,
+  },
+
   chartContainer: {
+    alignItems: "center",
+    height: screenHeight * 0.5,
     backgroundColor: "#111",
     borderRadius: 16,
-    padding: 16,
+    padding: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 10,
   },
 });

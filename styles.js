@@ -13,7 +13,7 @@ export const Colors = {
   grey: "#2e2d2d",
   white: "#FFFFFF",
   muted: "#eeeaea",
-  primaryBlue: "#1E6BFF",
+  primaryBlue: "#a2bbea",
   brightBlue: "#2D8CFF",
   lightBlue: "#368ae3",
   blueGradient: "#1D4ED8",

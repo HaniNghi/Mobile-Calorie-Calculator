@@ -13,6 +13,7 @@ import {
   muted,
   lightBlue,
   blueGradient,
+  primaryBlue,
 } from "../styles";
 import { getAllDayTotalCalories } from "../services/firebase";
 import { useEffect, useState } from "react";
@@ -70,7 +71,7 @@ export default function Graph() {
         return {
           value: found ? found.calories : 0,
           label: day.label,
-          frontColor: day.fullDate === todayStr ? lightBlue : brightBlue,
+          frontColor: day.fullDate === todayStr ? primaryBlue : brightBlue,
         };
       }),
     );
@@ -120,7 +121,7 @@ export default function Graph() {
           topLabelTextStyle={{ color: "white", fontSize: 8 }}
           data={barData}
           barWidth={20}
-          spacing={16}
+          spacing={20}
           roundedTop
           hideRules
           xAxisThickness={0}
@@ -173,6 +174,6 @@ const styles = StyleSheet.create({
   chartContainer: {
     backgroundColor: "#111",
     borderRadius: 16,
-    padding: 16,
+    padding: 10,
   },
 });

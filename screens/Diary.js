@@ -31,7 +31,15 @@ export default function Diary() {
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0],
   ); // 2026-04-10
-
+  
+  //Format date display
+  const formatDate = (dateStr) => {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+  };
   const [result, setResult] = useState({
     tdee: null,
     goalCalories: null,
@@ -107,7 +115,7 @@ export default function Diary() {
           style={styles.gradientPill}
         >
           <Text style={styles.gradientText}>
-            {selectedDate === today ? "Today" : selectedDate}
+            {selectedDate === today ? "Today" : formatDate(selectedDate)}
           </Text>
         </LinearGradient>
 

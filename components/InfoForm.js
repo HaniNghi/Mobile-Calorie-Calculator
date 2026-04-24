@@ -11,7 +11,7 @@ import { Dropdown } from "react-native-element-dropdown";
 // Colors
 import { black, grey, white, brightBlue } from "../styles";
 
-export default function InfoForm({ info, handleSave, buttonText }) {
+export default function InfoForm({ info, setInfo, handleSave, buttonText }) {
   const genders = ["Male", "Female"];
   const goals = [
     { label: "Lose weight", value: "lose" },

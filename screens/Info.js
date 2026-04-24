@@ -47,6 +47,7 @@ export default function Info() {
       <Text style={{ color: white }}>Your Info</Text>
       <InfoForm
         info={info}
+        setInfo={setInfo}
         handleSave={handleSave}
         buttonText={"Save changes"}
       />

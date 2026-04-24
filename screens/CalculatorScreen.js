@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 
 // Colors
 import { black, grey, white, brightBlue } from "../styles";
+import InfoForm from "../components/InfoForm";
 
 export default function CalculatorScreen() {
   const navigation = useNavigation();
@@ -67,145 +68,31 @@ export default function CalculatorScreen() {
     }
   };
 
+  const handleCalculate = async () => {
+    try {
+      await saveInfo(info);
+      Alert.alert("Successfully save your information");
+      navigation.navigate("Result", { info });
+    } catch (error) {
+      Alert.alert("Failed to save your information", error.message);
+    }
+  };
+
   useEffect(() => {
     fetchInfo();
   }, []);
 
   useEffect(() => {
-  if (infoFromDatabase) {
-    setInfo(infoFromDatabase);
-  }
-}, [infoFromDatabase]);
+    if (infoFromDatabase) {
+      setInfo(infoFromDatabase);
+    }
+  }, [infoFromDatabase]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
       <Header title={"Enter your details"} showBack={true} />
       <View style={styles.container}>
-        <View style={styles.form}>
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Age</Text>
-            <TextInput
-              autoCorrect={false}
-              style={styles.inputControl}
-              placeholder="20"
-              placeholderTextColor={white}
-              value={info.age}
-              onChangeText={(age) => setInfo({ ...info, age })}
-            />
-          </View>
-
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Gender</Text>
-            <View style={styles.optionRow}>
-              {genders.map((item) => (
-                <TouchableOpacity
-                  key={item}
-                  style={[
-                    styles.optionBtn,
-                    info.gender === item && styles.optionBtnActive,
-                  ]}
-                  onPress={() => setInfo({ ...info, gender: item })}
-                >
-                  <Text
-                    style={[
-                      styles.optionText,
-                      info.gender === item && styles.optionTextActive,
-                    ]}
-                  >
-                    {item}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Height</Text>
-            <TextInput
-              autoCorrect={false}
-              style={styles.inputControl}
-              placeholder="175"
-              placeholderTextColor={white}
-              value={info.height}
-              onChangeText={(height) => setInfo({ ...info, height })}
-            />
-          </View>
-
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Weight</Text>
-            <TextInput
-              autoCorrect={false}
-              style={styles.inputControl}
-              placeholder="70"
-              placeholderTextColor={white}
-              value={info.weight}
-              onChangeText={(weight) => setInfo({ ...info, weight })}
-            />
-          </View>
-
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Activity Level</Text>
-            <Dropdown
-              style={styles.dropdown}
-              containerStyle={styles.dropdownContainer}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              itemTextStyle={styles.itemTextStyle}
-              activeColor={black}
-              data={activityLevels}
-              labelField="label"
-              valueField="value"
-              placeholder="Select activity level"
-              value={info.activityLevel}
-              onChange={(item) => {
-                setInfo({ ...info, activityLevel: item.value });
-              }}
-            />
-          </View>
-
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Goal</Text>
-            <View style={styles.optionRow}>
-              {goals.map((item) => (
-                <TouchableOpacity
-                  key={item.label}
-                  style={[
-                    styles.optionBtn,
-                    info.goal === item.value && styles.optionBtnActive,
-                  ]}
-                  onPress={() => setInfo({ ...info, goal: item.value })}
-                >
-                  <Text
-                    style={[
-                      styles.optionText,
-                      info.goal === item.value && styles.optionTextActive,
-                    ]}
-                  >
-                    {item.label}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-
-          <View style={styles.formAction}>
-            <TouchableOpacity
-              onPress={async () => {
-                try {
-                  await saveInfo(info);
-                  Alert.alert("Successfully save your information");
-                  navigation.navigate("Result", { info });
-                } catch (error) {
-                  Alert.alert("Failed to save your information", error.message);
-                }
-              }}
-            >
-              <View style={styles.btn}>
-                <Text style={styles.btnText}>Calculate Calorie</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <InfoForm info={info} setInfo={setInfo} handleSave={handleCalculate} buttonText={"Calculate Calories"} />
       </View>
     </SafeAreaView>
   );

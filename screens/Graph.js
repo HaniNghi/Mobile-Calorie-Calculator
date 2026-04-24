@@ -19,9 +19,14 @@ import { useEffect, useState } from "react";
 
 export default function Graph() {
   const [barData, setBarData] = useState([]);
-  const today = new Date();
-
+  const [weekOffset, setWeekOffset] = useState(0); // 0=this week, -1=last week,, -2=2 weeks ago...
+  const [locatedWeek, setLocatedWeek] = useState([]);
   const getWeekDates = (offset) => {
+    const today = new Date();
+
+    // move to correct week
+    today.setDate(today.getDate() + offset * 7);
+
     const day = today.getDay(); // 0 = Sun, 1 = Mon, 2 = Tue, ...
 
     // Find the different between today and monday of the week
@@ -53,34 +58,66 @@ export default function Graph() {
   //fecth Date with Calories from Firebase and make it in correct day of the week
   const fetchBarData = async () => {
     const result = await getAllDayTotalCalories();
+    const week = getWeekDates(weekOffset);
 
-    const week = getWeekDates();
+    setLocatedWeek(week);
+
+    const todayStr = new Date().toISOString().split("T")[0];
 
     setBarData(
       week.map((day) => {
         const found = result.find((item) => item.date === day.fullDate);
-
-        const isToday = day.fullDate === today.toISOString().split("T")[0];
-
         return {
           value: found ? found.calories : 0,
           label: day.label,
-          frontColor: isToday ? blueGradient : brightBlue,
+          frontColor: day.fullDate === todayStr ? lightBlue : brightBlue,
         };
       }),
     );
   };
 
+  //Format date display
+  const formatDate = (dateStr) => {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+  };
+
   useFocusEffect(
     useCallback(() => {
       fetchBarData();
-    }, [barData]));
+    }, [weekOffset]),
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Calories Overview</Text>
+      <View style={styles.navRow}>
+        <TouchableOpacity onPress={() => setWeekOffset(weekOffset - 1)}>
+          <Text style={styles.navText}>← Last Week</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          disabled={weekOffset === 0}
+          onPress={() => setWeekOffset(weekOffset + 1)}
+        >
+          <Text
+            style={[styles.navText, weekOffset === 0 && styles.navTextDisabled]}
+          >
+            Next →
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.week}>
+        {locatedWeek.length > 0 &&
+          `Week ${formatDate(locatedWeek[0].fullDate)} • ${formatDate(locatedWeek[6].fullDate)}`}
+      </Text>
       <View style={styles.chartContainer}>
         <BarChart
+          minHeight={5}
+          showValuesAsTopLabel
+          topLabelTextStyle={{ color: "white", fontSize: 8 }}
           data={barData}
           barWidth={20}
           spacing={16}
@@ -90,8 +127,7 @@ export default function Graph() {
           yAxisThickness={0}
           yAxisTextStyle={{ color: muted }}
           xAxisLabelTextStyle={{ color: muted }}
-          noOfSections={4}
-          isAnimated
+          noOfSections={6}
         />
       </View>
     </SafeAreaView>
@@ -122,6 +158,16 @@ const styles = StyleSheet.create({
     color: brightBlue,
     fontSize: 14,
     fontWeight: "600",
+  },
+
+  navTextDisabled: {
+    color: grey,
+  },
+
+  week: {
+    color: white,
+    textAlign: "center",
+    marginBottom: 10,
   },
 
   chartContainer: {

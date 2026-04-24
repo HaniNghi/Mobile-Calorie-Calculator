@@ -147,10 +147,15 @@ const styles = StyleSheet.create({
 
   title: {
     color: white,
-    fontSize: 20,
-    fontWeight: "700",
     textAlign: "center",
     marginBottom: 10,
+    fontSize: 30,
+    fontWeight: 600,
+    marginTop: 10,
+    shadowColor: blueGradient,
+    shadowOpacity: 1,
+    shadowRadius: 14,
+    elevation: 6,
   },
 
   navRow: {

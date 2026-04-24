@@ -52,8 +52,7 @@ export default function Info() {
         <InfoForm
           info={info}
           setInfo={setInfo}
-          handleSave={handleSave}
-          buttonText={"Save changes"}
+          editable={false}
         />
       </View>
 

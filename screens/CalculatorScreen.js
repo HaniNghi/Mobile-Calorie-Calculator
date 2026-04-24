@@ -79,7 +79,14 @@ export default function CalculatorScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
       <Header title={"Enter your details"} showBack={true} />
       <View style={styles.container}>
-        <InfoForm info={info} setInfo={setInfo} handleSave={handleCalculate} buttonText={"Calculate Calories"} />
+        <InfoForm info={info} setInfo={setInfo} editable={true}/>
+      <View style={styles.formAction}>
+        <TouchableOpacity onPress={handleCalculate}>
+          <View style={styles.btn}>
+            <Text style={styles.btnText}>Calculate Calories</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
       </View>
     </SafeAreaView>
   );
@@ -90,5 +97,29 @@ const styles = StyleSheet.create({
     backgroundColor: black,
     padding: 24,
     flex: 1,
+  },
+  formAction: {
+    marginVertical: 24,
+    flex: 1,
+    alignItems: "center",
+  },
+  btn: {
+    width: 200,
+    backgroundColor: brightBlue,
+    borderRadius: 12,
+    height: 52,
+    justifyContent: "center",
+    alignItems: "center",
+    // marginHorizontal: 20,
+    shadowColor: brightBlue,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  btnText: {
+    color: white,
+    fontSize: 17,
+    fontWeight: "600",
   },
 });

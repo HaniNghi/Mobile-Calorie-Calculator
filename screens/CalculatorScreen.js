@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
   formAction: {
     marginVertical: 24,
     flex: 1,
-    alignItems: "center",
+    justifyContent: "flex-end",
+    alignItems: "center"
   },
   btn: {
     width: 200,

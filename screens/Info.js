@@ -1,11 +1,11 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import {View, Text, Button, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Button, TouchableOpacity, StyleSheet , Alert} from "react-native";
 // Colors
 import { black, grey, white, brightBlue } from "../styles";
 import { logout } from "../services/firebase";
 import InfoForm from "../components/InfoForm";
 import { useEffect, useState } from "react";
-import { getInfo } from "../services/firebase";
+import { getInfo , saveInfo} from "../services/firebase";
 
 export default function Info() {
   const handleLogout = async () => {
@@ -22,35 +22,41 @@ export default function Info() {
 
   const fetchInfo = async () => {
     try {
-    const infoFromFirebase = await getInfo();
+      const infoFromFirebase = await getInfo();
 
-    if(infoFromFirebase){
-      setInfo(infoFromFirebase)
-    }
-    } catch(error) {
+      if (infoFromFirebase) {
+        setInfo(infoFromFirebase);
+      }
+    } catch (error) {
       console.log(error);
     }
-    
-    
   };
 
-  const handleSave = () =>{
-    console.log("saved")
-  }
+  const handleSave = async () => {
+      try {
+        await saveInfo(info);
+        Alert.alert("Successfully save your information");
+      } catch (error) {
+        Alert.alert("Failed to save your information", error.message);
+      }
+    };
 
-  useEffect(()=>{
-    fetchInfo()
-  },[])
+  useEffect(() => {
+    fetchInfo();
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: black }}>
       <Text style={{ color: white }}>Your Info</Text>
-      <InfoForm
-        info={info}
-        setInfo={setInfo}
-        handleSave={handleSave}
-        buttonText={"Save changes"}
-      />
+      <View style={styles.container}>
+        <InfoForm
+          info={info}
+          setInfo={setInfo}
+          handleSave={handleSave}
+          buttonText={"Save changes"}
+        />
+      </View>
+
       <TouchableOpacity style={styles.saveBtn} onPress={handleLogout}>
         <Text style={styles.saveText}>Log out</Text>
       </TouchableOpacity>
@@ -70,6 +76,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 5,
+  },
+
+  container: {
+    backgroundColor: black,
+    padding: 24,
+    flex: 1,
   },
 
   saveText: {

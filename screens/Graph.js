@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import { Dimensions } from "react-native";
 
 // Colors
 import {
@@ -17,11 +18,13 @@ import {
 } from "../styles";
 import { getAllDayTotalCalories } from "../services/firebase";
 import { useEffect, useState } from "react";
+const screenHeight = Dimensions.get("window").height;
 
 export default function Graph() {
   const [barData, setBarData] = useState([]);
   const [weekOffset, setWeekOffset] = useState(0); // 0=this week, -1=last week,, -2=2 weeks ago...
   const [locatedWeek, setLocatedWeek] = useState([]);
+
   const getWeekDates = (offset) => {
     const today = new Date();
 
@@ -116,12 +119,13 @@ export default function Graph() {
       </Text>
       <View style={styles.chartContainer}>
         <BarChart
+          height={screenHeight * 0.4}
           minHeight={5}
           showValuesAsTopLabel
           topLabelTextStyle={{ color: "white", fontSize: 8 }}
           data={barData}
-          barWidth={20}
-          spacing={20}
+          barWidth={24}
+          spacing={18}
           roundedTop
           hideRules
           xAxisThickness={0}
@@ -172,8 +176,14 @@ const styles = StyleSheet.create({
   },
 
   chartContainer: {
+    alignItems: "center",
+    height: screenHeight * 0.5,
     backgroundColor: "#111",
     borderRadius: 16,
     padding: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 10,
   },
 });

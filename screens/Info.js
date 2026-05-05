@@ -1,11 +1,11 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, Button, TouchableOpacity, StyleSheet , Alert} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet} from "react-native";
 // Colors
-import { black, grey, white, brightBlue, blueGradient } from "../styles";
+import { black, white, brightBlue, blueGradient } from "../styles";
 import { logout } from "../services/firebase";
 import InfoForm from "../components/InfoForm";
 import { useEffect, useState } from "react";
-import { getInfo , saveInfo} from "../services/firebase";
+import { getInfo} from "../services/firebase";
 
 export default function Info() {
   const handleLogout = async () => {

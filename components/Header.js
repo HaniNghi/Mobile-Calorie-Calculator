@@ -3,13 +3,8 @@ import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 // Colors
 import {
-  black,
-  grey,
   white,
-  muted,
-  darkLight,
   brightBlue,
-  lightBlue,
 } from "../styles";
 
 export default function Header({

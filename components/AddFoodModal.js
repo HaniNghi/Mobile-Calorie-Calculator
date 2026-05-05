@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { black, brightBlue, faded, grey, lightBlue, muted, white } from "../styles";
+import { brightBlue, faded, grey, muted, white } from "../styles";
 
 export default function AddFoodModal({ visible, food, onClose, onSave }) {
   const [amount, setAmount] = useState("100");

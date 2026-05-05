@@ -1,13 +1,11 @@
 import {
   View,
   Text,
-  Button,
   StyleSheet,
-  ScrollView,
   TextInput,
   FlatList,
 } from "react-native";
-import { black, brightBlue, darkGrey, faded, grey, lightBlue, muted, white } from "../styles";
+import { black, darkGrey, lightBlue, muted, white } from "../styles";
 import Header from "../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect, useMemo } from "react";

@@ -1,5 +1,4 @@
 import {
-  Modal,
   View,
   Text,
   TextInput,
@@ -10,11 +9,8 @@ import { useState } from "react";
 import {
   black,
   blueGradient,
-  brightBlue,
   darkGrey,
-  faded,
   grey,
-  lightBlue,
   muted,
   white,
 } from "../styles";

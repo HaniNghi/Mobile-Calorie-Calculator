@@ -1,6 +1,5 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { muted, white } from "../styles";
-import { mutationRef } from "firebase/data-connect";
 
 export default function FoodCard({
   name,

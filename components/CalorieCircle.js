@@ -2,13 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import {
-  black,
-  grey,
-  white,
   muted,
-  darkLight,
   brightBlue,
-  lightBlue,
 } from "../styles";
 
 export default function CalorieCircle({

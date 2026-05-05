@@ -2,7 +2,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import { black, brightBlue, grey } from "../styles";
-import Result from "../screens/Result";
 import Diary from "../screens/Diary";
 import Graph from "../screens/Graph";
 import Info from "../screens/Info";

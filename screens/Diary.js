@@ -9,12 +9,9 @@ import {
 // Colors
 import {
   black,
-  grey,
   white,
   brightBlue,
   lightBlue,
-  faded,
-  muted,
   blueGradient,
 } from "../styles";
 import { useEffect, useState } from "react";

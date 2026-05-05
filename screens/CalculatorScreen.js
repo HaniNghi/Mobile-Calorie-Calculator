@@ -4,18 +4,16 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Dropdown } from "react-native-element-dropdown";
 import { getInfo, saveInfo } from "../services/firebase";
 import Header from "../components/Header";
 import { useNavigation } from "@react-navigation/native";
 
 // Colors
-import { black, grey, white, brightBlue } from "../styles";
+import { black, white, brightBlue } from "../styles";
 import InfoForm from "../components/InfoForm";
 
 export default function CalculatorScreen() {
